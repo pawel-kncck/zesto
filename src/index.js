@@ -6,7 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { deepPurple, orange } from '@material-ui/core/colors';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import rootReducer from './store/rootReducer';
 
 const theme = createMuiTheme({
@@ -27,16 +28,28 @@ const theme = createMuiTheme({
   },
 });
 
-const store = createStore(rootReducer)
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(ReduxThunk),
+  // other store enhancers if any
+);
+
+const  store  =  createStore(rootReducer, enhancer);
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <App />
       </Provider>
-    </ThemeProvider>
-  </React.StrictMode>,
+    </ThemeProvider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

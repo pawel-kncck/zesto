@@ -8,30 +8,40 @@
         "display_name": "John Smith",
         "email": "john@zesto.com"
     },
+    "has_many_sections": false,
     "sections": [
         {
-            "id": "t4y67tuj",
-            "position": 1,
-            "type": "choice",
-            "header": "What's a capital city of the Netherlands?",
-            "subtitle": "",
-            "options": [
+            "exercises": [
                 {
-                    "id": "e5gr6yhgf",
-                    "position": 1,
-                    "is_correct": true,
-                    "label": "Amsterdam"
-                },
-                {
-                    "id": "ghu8tghf",
-                    "position": 2,
-                    "is_correct": false,
-                    "label": "The Hague"
+                    "questions": [
+                        {
+                            "id": "t4y67tuj",
+                            "position": 1,
+                            "type": "choice",
+                            "header": "What's a capital city of the Netherlands?",
+                            "subtitle": "",
+                            "options": [
+                                {
+                                    "id": "e5gr6yhgf",
+                                    "position": 1,
+                                    "is_correct": true,
+                                    "label": "Amsterdam"
+                                },
+                                {
+                                    "id": "ghu8tghf",
+                                    "position": 2,
+                                    "is_correct": false,
+                                    "label": "The Hague"
+                                }
+                            ],
+                            "points": 1,
+                            "multiple_answers": false
+                        }
+                    ]
                 }
-            ],
-            "points": 1,
-            "multiple_answers": false
-        },
+
+            ]
+        }
         {
             "id": "bdo8yh4rg",
             "position": 2,
