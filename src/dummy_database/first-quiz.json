@@ -1,0 +1,105 @@
+{
+    "title": "Sample quiz",
+    "description": "",
+    "last_saved": "timestamp",
+    "created_at": "2020-10-20",
+    "author": {
+        "id": "r64rtyu8",
+        "display_name": "John Smith",
+        "email": "john@zesto.com"
+    },
+    "sections": [
+        {
+            "id": "t4y67tuj",
+            "position": 1,
+            "type": "choice",
+            "header": "What's a capital city of the Netherlands?",
+            "subtitle": "",
+            "options": [
+                {
+                    "id": "e5gr6yhgf",
+                    "position": 1,
+                    "is_correct": true,
+                    "label": "Amsterdam"
+                },
+                {
+                    "id": "ghu8tghf",
+                    "position": 2,
+                    "is_correct": false,
+                    "label": "The Hague"
+                }
+            ],
+            "points": 1,
+            "multiple_answers": false
+        },
+        {
+            "id": "bdo8yh4rg",
+            "position": 2,
+            "type": "gap_fill",
+            "header": "Fill the gaps in the following text:",
+            "subtitle": "",
+            "paragraphs": [
+                {
+                    "id": "e5gr6yhgf",
+                    "position": 1,
+                    "type": "list_item",
+                    "number": 1,
+                    "elements": [
+                        {
+                            "type": "text_run",
+                            "text": "This is the first time"
+                        },
+                        {
+                            "type": "gap",
+                            "sgap_id": "qq2w"
+                        },
+                        {
+                            "type": "text_run",
+                            "text": "ever."
+                        }
+                    ]
+                },
+                {
+                    "id": "vbji8765rf",
+                    "position": 2,
+                    "type": "list_item",
+                    "number": 2,
+                    "elements": [
+                        {
+                            "type": "text_run",
+                            "text": "And this is the"
+                        },
+                        {
+                            "type": "gap",
+                            "sgap_id": "r5yt"
+                        },
+                        {
+                            "type": "text_run",
+                            "text": "example."
+                        }
+                    ]
+                }
+            ],
+            "gaps": [
+                {
+                    "id": "qq2w",
+                    "type": "short_gap",
+                    "answer_key": "",
+                    "placeholder": "example",
+                    "default": "",
+                    "disabled": false,
+                    "points": 1
+                },
+                {
+                    "id": "r5yt",
+                    "type": "long_gap",
+                    "answer_key": "second",
+                    "placeholder": "type your answer",
+                    "default": "",
+                    "disabled": false,
+                    "points": 1
+                }
+            ]
+        }
+    ]
+}
