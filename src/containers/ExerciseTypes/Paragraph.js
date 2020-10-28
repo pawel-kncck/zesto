@@ -16,17 +16,23 @@ const Paragraph = (props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={() => console.log('paragraph clicked')}>
             {
-                props.exercises[props.exIndex].paragraphs[props.pIndex].elements.map((element, index) => {
+                props.exercises[props.exIndex].paragraphs[props.pgIndex].elements.map((element, elIndex) => {
                     switch (element.type) {
                         case 'text_run':
                             return (
-                                <Pspan key={index} content={element.content} />
+                                <Pspan 
+                                    key={elIndex} 
+                                    content={element.content}
+                                    exIndex={props.exIndex}
+                                    pgIndex={props.pgIndex}
+                                    elIndex={elIndex}
+                                />
                             )
                         case 'gap':
                             return (
-                                <input key={index} type='text' />
+                                <input key={elIndex} type='text' />
                             )
                         default:
                             return null;
@@ -43,4 +49,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps,null)(Paragraph);
+const mapDispatchToProps = dispatch => {
+    return {
+    //   updateElement: (exIndex, pgIndex, elIndex, content ) => {dispatch(updateElement(exIndex, pgIndex, elIndex, content))}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Paragraph);

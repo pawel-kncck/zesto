@@ -4,7 +4,9 @@ action types
 */
 
 export const ADD_EXERCISE = 'ADD_EXERCISE';
-export const ADD_ITEM = 'ADD_ITEM';
+export const ADD_PARAGRAPH = 'ADD_PARAGRAPH';
+export const UPDATE_ELEMENT = 'UPDATE_ELEMENT';
+export const INSERT_GAP = 'INSERT_GAP';
 
 /*
 action creators
@@ -37,11 +39,9 @@ export const addGapFill = () => {
     }
 }
 
-
-
 export const addParagraph = (exIndex) => {
     return { 
-        type: ADD_ITEM,
+        type: ADD_PARAGRAPH,
         exIndex: exIndex,
         payload: {
             id: makeCustomId(8),
@@ -50,12 +50,49 @@ export const addParagraph = (exIndex) => {
                 {
                     type: 'text_run',
                     content: 'First sentence'
+                },
+                {
+                    type: 'text_run',
+                    content: ' 2nd sentence'
                 }
             ]
         }
     }
 }
 
-// export const cancelFloovio = () => {
-//     return { type: CANCEL_FLOOVIO }
-// }
+export const updateElement = (exIndex, pIndex, elIndex, content) => {
+    return {
+        type: UPDATE_ELEMENT,
+        payload: {
+            exIndex: exIndex,
+            pIndex: pIndex,
+            elIndex: elIndex,
+            content: content
+        }
+    }
+}
+
+export const insertGap = (exIndex, pgIndex, elIndex, splitIndex) => {
+    return {
+        type: INSERT_GAP,
+        payload: {
+            exIndex: exIndex,
+            pgIndex: pgIndex,
+            elIndex: elIndex,
+            splitIndex: splitIndex
+        }
+    }
+
+}
+
+export const addGapAtCaretPosition = (exIndex, pIndex, elIndex, content) => {
+    return {
+        type: UPDATE_ELEMENT,
+        payload: {
+            exIndex: exIndex,
+            pIndex: pIndex,
+            elIndex: elIndex,
+            content: content
+        }
+    }
+}
