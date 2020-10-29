@@ -5,10 +5,19 @@ import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        minHeight: '50px',
+        minHeight: '30px',
         background: 'rgba(0, 0, 0, 0.1)',
-        border: '1px solid #ddd',
         padding: '18.5px 14px',
+        display: 'flex',
+        alignItems: 'center'
+    },
+    content: {
+        background: 'rgb(255, 255, 255)',
+        flexGrow: 1
+    },
+    number: {
+        minWidth: '20px',
+        textAlign: 'center'
     }
 }))
 
@@ -16,7 +25,9 @@ const Paragraph = (props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root} onClick={() => console.log('paragraph clicked')}>
+        <div className={classes.root}>
+            <div className={classes.number}>{props.exercises[props.exIndex].is_numbered ? props.pgIndex + 1 : null}</div>
+            <div className={classes.content}>
             {
                 props.exercises[props.exIndex].paragraphs[props.pgIndex].elements.map((element, elIndex) => {
                     switch (element.type) {
@@ -39,6 +50,7 @@ const Paragraph = (props) => {
                     }
                 })
             }
+            </div>
         </div>
     )
 }

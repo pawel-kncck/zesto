@@ -54,6 +54,7 @@
                     "position": 1,
                     "type": "list_item",
                     "number": 1,
+                    "placeholder": "New paragraph...",
                     "elements": [
                         {
                             "type": "text_run",

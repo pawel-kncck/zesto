@@ -49,11 +49,7 @@ export const addParagraph = (exIndex) => {
             elements: [
                 {
                     type: 'text_run',
-                    content: 'First sentence'
-                },
-                {
-                    type: 'text_run',
-                    content: ' 2nd sentence'
+                    content: 'New paragraph...'
                 }
             ]
         }

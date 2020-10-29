@@ -3,11 +3,19 @@ import ContentEditable from 'react-contenteditable';
 import { connect } from 'react-redux';
 import { updateElement } from '../../store/quiz.actions';
 import { setCaretPosition, setEditMode } from '../../store/editMode.actions';
+import { withStyles } from '@material-ui/core';
 
 // Build with react-contenteditable 
 // https://github.com/lovasoa/react-contenteditable
 // https://www.npmjs.com/package/react-contenteditable
 
+const styles = ({
+  root: {
+    marginRight: '10px',
+    border: 'none',
+    outline: 'none',
+  }
+})
 
 class Pspan extends React.Component {
   constructor(props) {
@@ -58,8 +66,11 @@ class Pspan extends React.Component {
   };
    
   render = () => {
+    const { classes } = this.props;
     return (
       <ContentEditable
+        // style={{ marginRight: '5px' }}
+        className={classes.root}
         innerRef={this.contentEditable}
         html={this.props.exercises[this.props.exIndex].paragraphs[this.props.pgIndex].elements[this.props.elIndex].content} // innerHTML of the editable div
         disabled={false}       // use true to disable editing
@@ -89,4 +100,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Pspan);
+export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Pspan));

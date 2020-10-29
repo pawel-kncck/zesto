@@ -12,10 +12,10 @@ const initialState = {
                 {
                     id: 'e654edfgh',
                     type: 'gap_fill',
-                    title: 'New exercise',
+                    title: 'Fill the gaps in the following sentences:',
                     subtitle: '',
                     has_subtitle: false,
-                    is_numbered: false,
+                    is_numbered: true,
                     paragraphs: [
                         {
                             id: 'rty765rt',
