@@ -6,17 +6,17 @@ import { connect } from 'react-redux';
 const useStyles = makeStyles(theme => ({
     root: {
         minHeight: '30px',
-        background: 'rgba(0, 0, 0, 0.1)',
-        padding: '18.5px 14px',
+        background: 'inherit',
         display: 'flex',
         alignItems: 'center'
     },
     content: {
         background: 'rgb(255, 255, 255)',
-        flexGrow: 1
+        flexGrow: 1,
+        padding: '9px 12px',
     },
     number: {
-        minWidth: '20px',
+        minWidth: '36px',
         textAlign: 'center'
     }
 }))
@@ -26,7 +26,7 @@ const Paragraph = (props) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.number}>{props.exercises[props.exIndex].is_numbered ? props.pgIndex + 1 : null}</div>
+            <div className={classes.number}>{props.exercises[props.exIndex].is_numbered ? (props.pgIndex + 1) + '.' : null}</div>
             <div className={classes.content}>
             {
                 props.exercises[props.exIndex].paragraphs[props.pgIndex].elements.map((element, elIndex) => {

@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
     paragraphBox: {
         marginLeft: '60px',
-        marginBottom: '20px',
+        marginBottom: '10px',
 
     },
     exNumber: {

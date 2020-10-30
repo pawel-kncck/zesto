@@ -58,6 +58,11 @@ class Pspan extends React.Component {
     this.props.updateElement(this.props.exIndex, this.props.pgIndex, this.props.elIndex, this.strip(evt.target.value))
   };
 
+  handleFocus = () => {
+    this.props.activateEditMode()
+    this.handleCaretPosition()
+  }
+
   handleCaretPosition = () => {
     var bodyRect = document.body.getBoundingClientRect();
     var elemRect = this.contentEditable.current.getBoundingClientRect();
@@ -78,7 +83,7 @@ class Pspan extends React.Component {
         onKeyUp={this.handleCaretPosition} // handle innerHTML change
         onMouseUp={this.handleCaretPosition} // handle innerHTML change
         onBlur={() => this.props.deactivateEditMode()}
-        onFocus={() => this.props.activateEditMode()}
+        onFocus={() => this.handleFocus()}
         tagName='span' // Use a custom HTML tag (uses a div by default)
       />
       )
