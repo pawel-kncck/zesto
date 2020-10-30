@@ -11,9 +11,9 @@ import { withStyles } from '@material-ui/core';
 
 const styles = ({
   root: {
-    marginRight: '10px',
     border: 'none',
     outline: 'none',
+    height: '21px'
   }
 })
 

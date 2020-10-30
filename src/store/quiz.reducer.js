@@ -82,6 +82,41 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+        case actionTypes.REMOVE_PARAGRAPH:
+            let newExerciseArrayRP = [...state.sections[0].exercises]
+            newExerciseArrayRP[action.payload.exIndex].paragraphs.splice(action.payload.pgIndex,1)
+
+            return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayRP
+                    }
+                ]
+            }
+        case actionTypes.REORDER_PARAGRAPH:
+            let newExerciseArrayROP = [...state.sections[0].exercises];
+            let reorderedParagraphArray = newExerciseArrayROP[action.payload.exIndex].paragraphs;
+            if (!(action.payload.pgIndex === 0 && action.payload.offset === -1) && !(action.payload.index === reorderedParagraphArray.length && action.payload.offset === 1)) {
+                const moveSegment = (array, from, to) => {
+                    array.splice(to, 0, array.splice(from, 1)[0]);
+                };
+                
+                moveSegment(reorderedParagraphArray, action.payload.pgIndex, action.payload.pgIndex + action.payload.offset);
+
+                return {
+                    ...state,
+                    sections: [
+                        {
+                            exercises: newExerciseArrayROP
+                        }
+                    ],
+                }
+            } else {
+                return {
+                    ...state
+                }
+            }
         case actionTypes.UPDATE_ELEMENT:
             let newExerciseArrayUE = [...state.sections[0].exercises]
             newExerciseArrayUE[action.payload.exIndex].paragraphs[action.payload.pIndex].elements[action.payload.elIndex].content = action.payload.content;
@@ -94,6 +129,30 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+        case actionTypes.TOGGLE_IS_NUMBERED:
+            let newExerciseArrayTIN = [...state.sections[0].exercises]
+            newExerciseArrayTIN[action.payload.exIndex].is_numbered = !newExerciseArrayTIN[action.payload.exIndex].is_numbered
+
+            return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayTIN
+                    }
+                ]
+            }
+        case actionTypes.UPDATE_EXERCISE_TITLE:
+            let newExerciseArrayUET = [...state.sections[0].exercises]
+            newExerciseArrayUET[action.payload.exIndex].title = action.payload.value
+
+            return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayUET
+                    }
+                ]
+            }
         case actionTypes.INSERT_GAP:
             let newExerciseArrayIG = [...state.sections[0].exercises]
             const initialContent = newExerciseArrayIG[action.payload.exIndex].paragraphs[action.payload.pgIndex].elements[action.payload.elIndex].content
@@ -101,7 +160,7 @@ const reducer = (state = initialState, action) => {
                 {
                     id: makeCustomId(5),
                     type: "text_run",
-                    content: initialContent.substr(0,action.payload.splitIndex)
+                    content: initialContent.substr(0,action.payload.splitIndex).trim()
                 },
                 {
                     id: makeCustomId(5),
@@ -110,7 +169,7 @@ const reducer = (state = initialState, action) => {
                 {
                     id: makeCustomId(5),
                     type: "text_run",
-                    content: initialContent.substr(action.payload.splitIndex, initialContent.length - action.payload.splitIndex)
+                    content: initialContent.substr(action.payload.splitIndex, initialContent.length - action.payload.splitIndex).trim()
                 }
             ]
             newExerciseArrayIG[action.payload.exIndex].paragraphs[action.payload.pgIndex].elements.splice(action.payload.elIndex, 1, ...newElements)

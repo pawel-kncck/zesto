@@ -1,9 +1,9 @@
-import { makeStyles, Box, TextField, Button } from '@material-ui/core'
+import { makeStyles, Box, TextField, Button, Switch, FormControlLabel, IconButton } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react'
 import { connect } from 'react-redux';
 import { insertButtonHoverState } from '../../store/editMode.actions';
-import { addParagraph, insertGap } from '../../store/quiz.actions';
+import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../store/quiz.actions';
 import Paragraph from './Paragraph';
 
 const useStyles = makeStyles(theme => ({
@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 const GapFill = (props) => {
     const classes = useStyles();
+    const isNumbered = props.exercises[props.exIndex].is_numbered;
 
     const handleInsertGap = () => {
         const exIndex = props.caretPosition.exIndex;
@@ -60,7 +61,18 @@ const GapFill = (props) => {
         <>
             <Box className={classes.topBar}></Box>
             <Box className={classes.editOptionsContainer}>
-                <DeleteIcon fontSize='small' />
+                <FormControlLabel
+                    control={
+                    <Switch
+                        checked={isNumbered}
+                        onChange={() => props.toggleIsNumbered(props.exIndex)}
+                        color="primary"
+                    />
+                    }
+                    label="Numbered"
+                    labelPlacement='start'
+                />
+                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' /></IconButton>
             </Box>
             <Box className={classes.mainContainer}>
                 <Box className={classes.titleBox}>
@@ -69,12 +81,14 @@ const GapFill = (props) => {
                         fullWidth
                         variant='outlined'
                         label='Title'
+                        value={props.exercises[props.exIndex].title}
+                        onChange={(e) => props.updateExerciseTitle(props.exIndex, e.target.value)}
                     />
                 </Box>
                 {
                     props.exercises[props.exIndex].paragraphs.map((paragraph, pgIndex) => (
                         <Box key={pgIndex} className={classes.paragraphBox}>
-                            <Paragraph exIndex={props.exIndex} pgIndex={pgIndex} />
+                            <Paragraph exIndex={props.exIndex} pgIndex={pgIndex} paragraph={paragraph} />
                         </Box>
                     ))
                 }
@@ -103,6 +117,8 @@ const mapDispatchToProps = dispatch => {
         addParagraph : (exIndex) => {dispatch(addParagraph(exIndex))},
         insertGap: (exIndex, pgIndex, elIndex, splitIndex) => {dispatch(insertGap(exIndex, pgIndex, elIndex, splitIndex))},
         insertButtonSetState: (is_active) => {dispatch(insertButtonHoverState(is_active))},
+        toggleIsNumbered: (exIndex) => {dispatch(toggleIsNumbered(exIndex))},
+        updateExerciseTitle: (exIndex, value) => {dispatch(updateExerciseTitle(exIndex, value))},
     }
 }
 
