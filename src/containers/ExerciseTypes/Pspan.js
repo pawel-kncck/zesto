@@ -77,7 +77,7 @@ class Pspan extends React.Component {
         // style={{ marginRight: '5px' }}
         className={classes.root}
         innerRef={this.contentEditable}
-        html={this.props.exercises[this.props.exIndex].paragraphs[this.props.pgIndex].elements[this.props.elIndex].content} // innerHTML of the editable div
+        html={this.props.exercises[this.props.exIndex].paragraphs[this.props.pgIndex].elements[this.props.elIndex].content || '&nbsp'} // innerHTML of There  editable div
         disabled={false}       // use true to disable editing
         onChange={this.handleChange} // handle innerHTML change
         onKeyUp={this.handleCaretPosition} // handle innerHTML change

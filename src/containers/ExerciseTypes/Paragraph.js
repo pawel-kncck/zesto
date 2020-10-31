@@ -81,7 +81,7 @@ const Paragraph = (props) => {
                                 )
                             case 'gap':
                                 return (
-                                    <Gap key={elIndex} id={element.id} />
+                                    <Gap key={element.id} id={element.id} exIndex={props.exIndex} pgIndex={props.pgIndex} />
                                 )
                             default:
                                 return null;

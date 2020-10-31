@@ -54,7 +54,7 @@ export const addParagraph = (exIndex) => {
             elements: [
                 {
                     type: 'text_run',
-                    content: '&nbsp'
+                    content: ''
                 }
             ]
         }
@@ -127,7 +127,6 @@ export const removeGap = (exIndex, pgIndex, gapId) => {
             gapId: gapId
         }
     }
-
 }
 
 export const addGapAtCaretPosition = (exIndex, pIndex, elIndex, content) => {

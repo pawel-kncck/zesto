@@ -153,6 +153,43 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+        case actionTypes.REMOVE_GAP:
+            let newExerciseArrayRG = [...state.sections[0].exercises]
+            let elements = newExerciseArrayRG[action.payload.exIndex].paragraphs[action.payload.pgIndex].elements
+
+            const findIndex = (array, id) => {
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i].id === id) {
+                        return i
+                    }
+                }
+            }
+
+            const gapIndex = findIndex(elements, action.payload.gapId);
+
+            if (gapIndex > 0 && gapIndex < elements.length) {
+                if (elements[gapIndex - 1].type === 'text_run' && elements[gapIndex + 1].type === 'text_run') { // merging
+                    const newTextRun = {
+                        id: makeCustomId(5),
+                        type: 'text_run',
+                        content: elements[gapIndex - 1].content.trim() + ' ' + elements[gapIndex + 1].content.trim()
+                    }
+                    elements.splice(gapIndex - 1, 3, newTextRun)
+                } else {
+                    elements.splice(gapIndex, 1)
+                }
+            } else {
+                elements.splice(gapIndex, 1)
+            }
+
+            return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayRG
+                    }
+                ]
+            }
         case actionTypes.INSERT_GAP:
             let newExerciseArrayIG = [...state.sections[0].exercises]
             const initialContent = newExerciseArrayIG[action.payload.exIndex].paragraphs[action.payload.pgIndex].elements[action.payload.elIndex].content
