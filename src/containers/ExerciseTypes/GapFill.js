@@ -81,6 +81,7 @@ const GapFill = (props) => {
                         fullWidth
                         variant='outlined'
                         label='Title'
+                        style={{ background: '#fff' }}
                         value={props.exercises[props.exIndex].title}
                         onChange={(e) => props.updateExerciseTitle(props.exIndex, e.target.value)}
                     />

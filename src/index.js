@@ -26,6 +26,9 @@ const theme = createMuiTheme({
       offWhite: '#fafafa',
     }
   },
+  shape: {
+    borderRadius: '2px',
+  }
 });
 
 const composeEnhancers =
