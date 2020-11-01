@@ -5,13 +5,10 @@ import { insertButtonHoverState } from '../../store/editMode.actions';
 import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../store/quiz.actions';
 import Paragraph from './Paragraph';
 import TitleField from '../../componenets/TitleField';
+import ExerciseCardMain from '../../componenets/ExerciseCardMain';
+import ExerciseCardOptions from '../../componenets/ExerciseCardOptions';
 
-const useStyles = makeStyles(theme => ({
-    mainContainer: {
-        padding: '20px',
-        borderTop: '1px solid #ddd',
-        borderBottom: '1px solid #ddd'
-    },
+const useStyles = makeStyles({
     exerciseOptionsContainer: {
         height: '50px',
         margin: 0,
@@ -24,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '60px',
         marginBottom: '10px',
     },
-}))
+});
 
 const GapFill = (props) => {
     const classes = useStyles();
@@ -41,7 +38,7 @@ const GapFill = (props) => {
 
     return (
         <>
-            <Box className={classes.mainContainer}>
+            <ExerciseCardMain>
                 <TitleField
                     value={props.exercises[props.exIndex].title}
                     onChange={(e) => props.updateExerciseTitle(props.exIndex, e.target.value)}
@@ -59,8 +56,8 @@ const GapFill = (props) => {
                     disabled={!props.editMode.active}
                     onClick={handleInsertGap}
                 >+ Insert gap</Button>
-            </Box>
-            <Box className={classes.exerciseOptionsContainer}>
+            </ExerciseCardMain>
+            <ExerciseCardOptions>
                 <FormControlLabel
                     control={
                     <Switch
@@ -72,7 +69,7 @@ const GapFill = (props) => {
                     label="Numbered"
                     labelPlacement='start'
                 />
-            </Box>
+            </ExerciseCardOptions>
         </>
     )
 }

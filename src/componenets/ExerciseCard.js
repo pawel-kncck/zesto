@@ -5,7 +5,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        background: '#eee'
+        background: '#eee',
+        margin: '20px 0'
     },
     topBar: {
         height: '5px',
