@@ -8,7 +8,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         width: '795px',
         minHeight: '500px',
-        // boxShadow: theme.shadows[3],
         margin: 'auto',
         marginTop: '30px',
         padding: '30px',
@@ -20,13 +19,6 @@ const useStyles = makeStyles(theme => ({
         },
         marginBottom: '30px'
     },
-    exerciseBox: {
-        padding: 0,
-        '&:hover': {
-            background: '#eee'
-        },
-        marginBottom: '30px'
-    }
 }))
 
 const Workspace = (props) => {
@@ -44,9 +36,7 @@ const Workspace = (props) => {
                 <Typography variant='h4'>{props.desc}</Typography>
             </Box>
             {exercises.map((exercise, index) => (
-                <Box key={index} className={classes.exerciseBox}>
-                    <Exercise type={exercise.type} mode='edit' index={index} />
-                </Box>
+                <Exercise key={index} type={exercise.type} mode='edit' index={index} />
             ))}
             <AddExercise />
         </Paper>

@@ -1,18 +1,18 @@
-import { makeStyles, Box, TextField, Button, Switch, FormControlLabel, IconButton } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles, Box, Button, Switch, FormControlLabel } from '@material-ui/core'
 import React from 'react'
 import { connect } from 'react-redux';
 import { insertButtonHoverState } from '../../store/editMode.actions';
 import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../store/quiz.actions';
 import Paragraph from './Paragraph';
+import TitleField from '../../componenets/TitleField';
 
 const useStyles = makeStyles(theme => ({
-    topBar: {
-        height: '5px',
-        margin: 0,
-        background: theme.palette.primary.main
+    mainContainer: {
+        padding: '20px',
+        borderTop: '1px solid #ddd',
+        borderBottom: '1px solid #ddd'
     },
-    editOptionsContainer: {
+    exerciseOptionsContainer: {
         height: '50px',
         margin: 0,
         display: 'flex',
@@ -20,28 +20,10 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         paddingRight: '10px',
     },
-    mainContainer: {
-        minHeight: '400px',
-        padding: '20px',
-        borderTop: '1px solid #ddd',
-        borderBottom: '1px solid #ddd'
-    },
-    titleBox: {
-        display: 'flex',
-        marginBottom: '20px',
-    },
     paragraphBox: {
         marginLeft: '60px',
         marginBottom: '10px',
-
     },
-    exNumber: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '40px',
-        fontWeight: 500,
-    }
 }))
 
 const GapFill = (props) => {
@@ -59,33 +41,12 @@ const GapFill = (props) => {
 
     return (
         <>
-            <Box className={classes.topBar}></Box>
-            <Box className={classes.editOptionsContainer}>
-                <FormControlLabel
-                    control={
-                    <Switch
-                        checked={isNumbered}
-                        onChange={() => props.toggleIsNumbered(props.exIndex)}
-                        color="primary"
-                    />
-                    }
-                    label="Numbered"
-                    labelPlacement='start'
-                />
-                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' /></IconButton>
-            </Box>
             <Box className={classes.mainContainer}>
-                <Box className={classes.titleBox}>
-                    <Box className={classes.exNumber}>{props.exIndex + 1}.</Box>
-                    <TextField 
-                        fullWidth
-                        variant='outlined'
-                        label='Title'
-                        style={{ background: '#fff' }}
-                        value={props.exercises[props.exIndex].title}
-                        onChange={(e) => props.updateExerciseTitle(props.exIndex, e.target.value)}
-                    />
-                </Box>
+                <TitleField
+                    value={props.exercises[props.exIndex].title}
+                    onChange={(e) => props.updateExerciseTitle(props.exIndex, e.target.value)}
+                    number={props.exIndex + 1}
+                 />
                 {
                     props.exercises[props.exIndex].paragraphs.map((paragraph, pgIndex) => (
                         <Box key={pgIndex} className={classes.paragraphBox}>
@@ -97,9 +58,20 @@ const GapFill = (props) => {
                 <Button 
                     disabled={!props.editMode.active}
                     onClick={handleInsertGap}
-                    // onMouseEnter={() => props.insertButtonSetState(true)}
-                    // onMouseLeave={() => props.insertButtonSetState(false)}
                 >+ Insert gap</Button>
+            </Box>
+            <Box className={classes.exerciseOptionsContainer}>
+                <FormControlLabel
+                    control={
+                    <Switch
+                        checked={isNumbered}
+                        onChange={() => props.toggleIsNumbered(props.exIndex)}
+                        color="primary"
+                    />
+                    }
+                    label="Numbered"
+                    labelPlacement='start'
+                />
             </Box>
         </>
     )

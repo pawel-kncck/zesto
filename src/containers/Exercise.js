@@ -1,13 +1,14 @@
+import ExerciseCard from '../componenets/ExerciseCard';
 import React from 'react'
 import GapFill from './ExerciseTypes/GapFill';
 
 const Exercise = ({ type, mode, index }) => {
-    const bgColor = mode === 'edit' ? '#eee' : '#fff';
 
     return (
-        <div style={{ background: bgColor }}>
+        <ExerciseCard>
             {type === 'gap_fill' ? <GapFill mode={mode} exIndex={index} /> : null }
-        </div>
+            {/* {type === 'choice' ? <Choice mode={mode} exIndex={index} /> : null } */}
+        </ExerciseCard>
     )
 }
 

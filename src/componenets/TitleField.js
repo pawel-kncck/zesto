@@ -31,10 +31,10 @@ const InputField = (props) => {
             <TextField 
                 fullWidth
                 variant='outlined'
-                label='Title'
+                label={label}
                 style={{ background: '#fff' }}
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(event) => onChange(event)}
             />
         </Box>
     )
@@ -45,7 +45,7 @@ InputField.propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
     number: PropTypes.number
-} = props;
+};
 
 
 export default InputField;
