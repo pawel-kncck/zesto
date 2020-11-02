@@ -1,17 +1,22 @@
 import { makeCustomId } from '../utils/generators'
+
 /*
 action types
 */
 
 export const ADD_EXERCISE = 'ADD_EXERCISE';
+export const UPDATE_EXERCISE_TITLE = 'UPDATE_EXERCISE_TITLE';
 export const ADD_PARAGRAPH = 'ADD_PARAGRAPH';
+export const ADD_OPTION = 'ADD_OPTION';
+export const UPDATE_OPTION = 'UPDATE_OPTION';
 export const REMOVE_PARAGRAPH = 'REMOVE_PARAGRAPH';
 export const UPDATE_ELEMENT = 'UPDATE_ELEMENT';
 export const INSERT_GAP = 'INSERT_GAP';
 export const REMOVE_GAP = 'REMOVE_GAP';
 export const REORDER_PARAGRAPH = 'REORDER_PARAGRAPH';
 export const TOGGLE_IS_NUMBERED = 'TOGGLE_IS_NUMBERED';
-export const UPDATE_EXERCISE_TITLE = 'UPDATE_EXERCISE_TITLE';
+export const REMOVE_OPTION = 'REMOVE_OPTION';
+export const REORDER_OPTION = 'REORDER_OPTION';
 
 /*
 action creators
@@ -44,6 +49,28 @@ export const addGapFill = () => {
     }
 }
 
+export const addChoice = () => {
+    return { 
+        type: ADD_EXERCISE,
+        payload: {
+            type: 'choice',
+            title: 'New exercise',
+            subtitle: '',
+            has_subtitle: false,
+            options: [
+                {
+                    id: makeCustomId(5),
+                    label: 'Option 1'
+                },
+                {
+                    id: makeCustomId(5),
+                    label: 'Option 2'
+                }
+            ],
+        }
+    }
+}
+
 export const addParagraph = (exIndex) => {
     return { 
         type: ADD_PARAGRAPH,
@@ -58,6 +85,13 @@ export const addParagraph = (exIndex) => {
                 }
             ]
         }
+    }
+}
+
+export const addOption = (exIndex) => {
+    return { 
+        type: ADD_OPTION,
+        exIndex: exIndex
     }
 }
 
@@ -93,6 +127,40 @@ export const moveDownParagraphInGapFill = (exIndex, pgIndex) => {
     }
 }
 
+
+
+export const removeOptionInChoice = (exIndex, opIndex) => {
+    return { 
+        type: REMOVE_OPTION,
+        payload: {
+            exIndex: exIndex,
+            opIndex: opIndex
+        }
+    }
+}
+
+export const moveUpOptionInChoice = (exIndex, opIndex) => {
+    return { 
+        type: REORDER_OPTION,
+        payload: {
+            exIndex: exIndex,
+            opIndex: opIndex,
+            offset: -1
+        }
+    }
+}
+
+export const moveDownOptionInChoice = (exIndex, opIndex) => {
+    return { 
+        type: REORDER_OPTION,
+        payload: {
+            exIndex: exIndex,
+            opIndex: opIndex,
+            offset: 1
+        }
+    }
+}
+
 export const updateElement = (exIndex, pIndex, elIndex, content) => {
     return {
         type: UPDATE_ELEMENT,
@@ -100,6 +168,18 @@ export const updateElement = (exIndex, pIndex, elIndex, content) => {
             exIndex: exIndex,
             pIndex: pIndex,
             elIndex: elIndex,
+            content: content
+        }
+    }
+}
+
+
+export const updateOption = (exIndex, opIndex, content) => {
+    return {
+        type: UPDATE_OPTION,
+        payload: {
+            exIndex: exIndex,
+            opIndex: opIndex,
             content: content
         }
     }

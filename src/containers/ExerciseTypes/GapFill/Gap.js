@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
-import { removeGap } from '../../store/quiz.actions'
+import { removeGap } from '../../../store/quiz.actions'
 
 const useStyles = makeStyles({
     root: {

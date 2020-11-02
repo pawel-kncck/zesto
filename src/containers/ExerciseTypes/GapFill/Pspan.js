@@ -1,8 +1,8 @@
 import React from 'react';
 import ContentEditable from 'react-contenteditable';
 import { connect } from 'react-redux';
-import { updateElement } from '../../store/quiz.actions';
-import { setCaretPosition, setEditMode } from '../../store/editMode.actions';
+import { updateElement } from '../../../store/quiz.actions';
+import { setCaretPosition, setEditMode } from '../../../store/editMode.actions';
 import { withStyles } from '@material-ui/core';
 
 // Build with react-contenteditable 

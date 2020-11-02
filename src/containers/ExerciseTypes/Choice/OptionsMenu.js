@@ -4,33 +4,33 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
-import { removeParagraphInGapFill, moveUpParagraphInGapFill, moveDownParagraphInGapFill } from '../../store/quiz.actions';
+import { removeOptionInChoice, moveUpOptionInChoice, moveDownOptionInChoice } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';
 
-const ParagraphOptionsMenu =  (props) => {
+const OptionsMenu =  (props) => {
     const {
         exIndex,
-        pgIndex,
+        opIndex,
         open,
         anchorEl,
         onClose,
-        removeParagraph,
-        moveUpParagraph,
-        moveDownParagraph
+        removeOption,
+        moveUpOption,
+        moveDownOption
     } = props
 
     const handleRemove = () => {
-        removeParagraph(exIndex, pgIndex);
+        removeOption(exIndex, opIndex);
         onClose();
     }
 
     const handleMoveUp = () => {
-        moveUpParagraph(exIndex, pgIndex)
+        moveUpOption(exIndex, opIndex)
         onClose();
     }
 
     const handleMoveDown = () => {
-        moveDownParagraph(exIndex, pgIndex)
+        moveDownOption(exIndex, opIndex)
         onClose();
     }
 
@@ -55,23 +55,23 @@ const ParagraphOptionsMenu =  (props) => {
     )
 }
 
-ParagraphOptionsMenu.propTypes = {
+OptionsMenu.propTypes = {
     exIndex: PropTypes.number,
     pgIndex: PropTypes.number,
     open: PropTypes.bool,
     onClose: PropTypes.func,
-    removeParagraph: PropTypes.func,
-    moveUpParagraph: PropTypes.func,
-    moveDownParagraph: PropTypes.func,
+    removeOption: PropTypes.func,
+    moveUpOption: PropTypes.func,
+    moveDownOption: PropTypes.func,
     anchorEl: PropTypes.any,
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        removeParagraph: (exIndex, pgIndex) => {dispatch(removeParagraphInGapFill(exIndex, pgIndex))},
-        moveUpParagraph: (exIndex, pgIndex) => {dispatch(moveUpParagraphInGapFill(exIndex, pgIndex))},
-        moveDownParagraph: (exIndex, pgIndex) => {dispatch(moveDownParagraphInGapFill(exIndex, pgIndex))},
+        removeOption: (exIndex, opIndex) => {dispatch(removeOptionInChoice(exIndex, opIndex))},
+        moveUpOption: (exIndex, opIndex) => {dispatch(moveUpOptionInChoice(exIndex, opIndex))},
+        moveDownOption: (exIndex, opIndex) => {dispatch(moveDownOptionInChoice(exIndex, opIndex))},
     }
 }
 
-export default connect(null,mapDispatchToProps)(ParagraphOptionsMenu);
+export default connect(null,mapDispatchToProps)(OptionsMenu);

@@ -29,6 +29,7 @@ const InputField = (props) => {
         <Box className={classes.root}>
             <Box className={classes.number}>{number}.</Box>
             <TextField 
+                multiline
                 fullWidth
                 variant='outlined'
                 label={label}

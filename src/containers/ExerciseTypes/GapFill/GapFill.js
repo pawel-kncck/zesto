@@ -1,12 +1,12 @@
 import { makeStyles, Box, Button, Switch, FormControlLabel } from '@material-ui/core'
 import React from 'react'
 import { connect } from 'react-redux';
-import { insertButtonHoverState } from '../../store/editMode.actions';
-import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../store/quiz.actions';
+import { insertButtonHoverState } from '../../../store/editMode.actions'
+import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../../store/quiz.actions';
 import Paragraph from './Paragraph';
-import TitleField from '../../componenets/TitleField';
-import ExerciseCardMain from '../../componenets/ExerciseCardMain';
-import ExerciseCardOptions from '../../componenets/ExerciseCardOptions';
+import TitleField from '../../../componenets/TitleField';
+import ExerciseCardMain from '../../../componenets/ExerciseCardMain';
+import ExerciseCardOptions from '../../../componenets/ExerciseCardOptions';
 
 const useStyles = makeStyles({
     exerciseOptionsContainer: {

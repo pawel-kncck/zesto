@@ -3,7 +3,7 @@ import { IconButton, makeStyles } from '@material-ui/core';
 import Pspan from './Pspan';
 import Gap from './Gap';
 import { connect } from 'react-redux';
-import { removeParagraphInGapFill } from '../../store/quiz.actions'; 
+import { removeParagraphInGapFill } from '../../../store/quiz.actions'; 
 import ParagraphOptionsMenu from './ParagraphOptions';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
 

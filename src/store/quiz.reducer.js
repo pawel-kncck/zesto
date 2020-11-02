@@ -82,6 +82,66 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+		case actionTypes.ADD_OPTION:
+            let newExerciseArrayAO = [...state.sections[0].exercises]
+            const len = newExerciseArrayAO[action.exIndex].options.length;
+            newExerciseArrayAO[action.exIndex].options.push({ id: makeCustomId(5), label: 'Option' + (len + 1) })
+
+			return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayAO
+                    }
+                ]
+            }
+		case actionTypes.UPDATE_OPTION:
+            let newExerciseArrayUO = [...state.sections[0].exercises]
+            newExerciseArrayUO[action.payload.exIndex].options[action.payload.opIndex].label = action.payload.content
+
+			return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayUO
+                    }
+                ]
+            }
+        case actionTypes.REMOVE_OPTION:
+            let newExerciseArrayROPT = [...state.sections[0].exercises]
+            newExerciseArrayROPT[action.payload.exIndex].options.splice(action.payload.opIndex,1)
+
+            return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayROPT
+                    }
+                ]
+            }
+        case actionTypes.REORDER_OPTION:
+            let newExerciseArrayROOPT = [...state.sections[0].exercises];
+            let reorderedOptionArray = newExerciseArrayROOPT[action.payload.exIndex].options;
+            if (!(action.payload.opIndex === 0 && action.payload.offset === -1) && !(action.payload.index === reorderedOptionArray.length && action.payload.offset === 1)) {
+                const moveSegment = (array, from, to) => {
+                    array.splice(to, 0, array.splice(from, 1)[0]);
+                };
+                
+                moveSegment(reorderedOptionArray, action.payload.opIndex, action.payload.opIndex + action.payload.offset);
+
+                return {
+                    ...state,
+                    sections: [
+                        {
+                            exercises: newExerciseArrayROOPT
+                        }
+                    ],
+                }
+            } else {
+                return {
+                    ...state
+                }
+            }
         case actionTypes.REMOVE_PARAGRAPH:
             let newExerciseArrayRP = [...state.sections[0].exercises]
             newExerciseArrayRP[action.payload.exIndex].paragraphs.splice(action.payload.pgIndex,1)

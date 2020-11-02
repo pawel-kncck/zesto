@@ -31,7 +31,7 @@ const ExerciseCard = (props) => {
         <div className={classes.root}>
             <div className={classes.topBar}></div>
             <div className={classes.actionsBar}>
-                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' onClick={onDelete} /></IconButton>
+                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' onClick={() => onDelete()} /></IconButton>
             </div>
             {children}
         </div>
