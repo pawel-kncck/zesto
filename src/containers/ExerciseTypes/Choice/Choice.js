@@ -19,7 +19,9 @@ const Choice = (props) => {
             />
             {props.exercises[exIndex].options.map((option, index) => (
                 <OptionContainer 
-                    key={option.id} 
+                    key={option.id}
+                    id={option.id}
+                    answer_key={props.exercises[props.exIndex].answer_key}
                     exIndex={props.exIndex} 
                     opIndex={index} 
                     value={option.label}

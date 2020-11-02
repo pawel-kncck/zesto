@@ -7,7 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { addGapFill, addChoice } from '../store/quiz.actions';
+import { addGapFill, addChoice, addText } from '../store/quiz.actions';
 import { connect } from 'react-redux';
 
 const AddExercise = (props) => {
@@ -31,10 +31,15 @@ const AddExercise = (props) => {
         props.addChoice();
     };
 
+    const addText = () => {
+        setAnchorEl(null);
+        props.addText();
+    };
+
     const actions = [
         { icon: <FormatListBulletedIcon />, name: 'Choice', action: addChoice },
         { icon: <SpaceBarIcon />, name: 'Gap fill', action: addGapFill },
-        { icon: <TextFieldsIcon />, name: 'Text', action: handleClose }
+        { icon: <TextFieldsIcon />, name: 'Text', action: addText }
     ]
 
     return (
@@ -76,6 +81,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addGapFill: () => {dispatch(addGapFill())},
         addChoice: () => {dispatch(addChoice())},
+        addText: () => {dispatch(addText())},
     }
 }
 

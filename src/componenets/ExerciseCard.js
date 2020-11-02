@@ -24,14 +24,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ExerciseCard = (props) => {
-    const { children, onDelete='null' } = props;
+    const { children, onDelete={function () {}} } = props;
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <div className={classes.topBar}></div>
             <div className={classes.actionsBar}>
-                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' onClick={() => onDelete()} /></IconButton>
+                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' onClick={onDelete} /></IconButton>
             </div>
             {children}
         </div>

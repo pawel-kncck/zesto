@@ -82,16 +82,40 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+		case actionTypes.UPDATE_TEXT_PARAGRAPH:
+            let newExerciseArrayUTP = [...state.sections[0].exercises]
+            newExerciseArrayUTP[action.payload.exIndex].paragraphs[action.payload.pgIndex].content = action.payload.content
+
+			return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayUTP
+                    }
+                ]
+            }
 		case actionTypes.ADD_OPTION:
             let newExerciseArrayAO = [...state.sections[0].exercises]
             const len = newExerciseArrayAO[action.exIndex].options.length;
-            newExerciseArrayAO[action.exIndex].options.push({ id: makeCustomId(5), label: 'Option' + (len + 1) })
+            newExerciseArrayAO[action.exIndex].options.push({ id: makeCustomId(5), label: 'Option ' + (len + 1) })
 
 			return {
                 ...state,
                 sections: [
                     {
                         exercises: newExerciseArrayAO
+                    }
+                ]
+            }
+		case actionTypes.SET_CORRECT_ANSWER:
+            let newExerciseArraySCA = [...state.sections[0].exercises]
+            newExerciseArraySCA[action.payload.exIndex].answer_key[0] = action.payload.id;
+
+			return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArraySCA
                     }
                 ]
             }
@@ -108,8 +132,16 @@ const reducer = (state = initialState, action) => {
                 ]
             }
         case actionTypes.REMOVE_OPTION:
-            let newExerciseArrayROPT = [...state.sections[0].exercises]
-            newExerciseArrayROPT[action.payload.exIndex].options.splice(action.payload.opIndex,1)
+            let newExerciseArrayROPT = [...state.sections[0].exercises];
+            let answerKey = newExerciseArrayROPT[action.payload.exIndex].answer_key;
+            let answerIndex = answerKey.indexOf(action.payload.id);
+
+            if (answerIndex !== -1) {
+                newExerciseArrayROPT[action.payload.exIndex].options.splice(action.payload.opIndex, 1)
+                newExerciseArrayROPT[action.payload.exIndex].answer_key.splice(answerIndex, 1)
+            } else {
+                newExerciseArrayROPT[action.payload.exIndex].options.splice(action.payload.opIndex, 1)
+            }
 
             return {
                 ...state,

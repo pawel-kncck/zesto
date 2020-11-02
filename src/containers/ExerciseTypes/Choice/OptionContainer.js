@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 })
 
 const OptionContainer = (props) => {
-    const { value, onChange } = props;
+    const { id, answer_key, value, onChange, exIndex } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(false);
 
@@ -35,7 +35,7 @@ const OptionContainer = (props) => {
 
     return (
         <div className={classes.root}>
-            <Radio disabled />
+            <Radio checked={answer_key.includes(id)} />
             <TextField 
                 variant='outlined' 
                 className={classes.inputField}
@@ -48,14 +48,17 @@ const OptionContainer = (props) => {
                     <MoreHorizIcon />
                 </IconButton>
             </div>
-            <OptionsMenu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleCloseMenu} exIndex={props.exIndex} opIndex={props.opIndex} />
+            <OptionsMenu id={id} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleCloseMenu} exIndex={exIndex} opIndex={props.opIndex} />
         </div>
     )
 }
 
 OptionContainer.propTypes = {
+    id: PropTypes.string,
+    answer_key: PropTypes.array,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    exIndex: PropTypes.number,
 }
 
 export default OptionContainer;

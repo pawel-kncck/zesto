@@ -4,23 +4,26 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
-import { removeOptionInChoice, moveUpOptionInChoice, moveDownOptionInChoice } from '../../../store/quiz.actions';
+import CheckIcon from '@material-ui/icons/Check';
+import { removeOptionInChoice, moveUpOptionInChoice, moveDownOptionInChoice, setCorrectAnswer } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';
 
 const OptionsMenu =  (props) => {
     const {
         exIndex,
+        id,
         opIndex,
         open,
         anchorEl,
         onClose,
         removeOption,
         moveUpOption,
-        moveDownOption
+        moveDownOption,
+        setCorrectAnswer
     } = props
 
     const handleRemove = () => {
-        removeOption(exIndex, opIndex);
+        removeOption(exIndex, opIndex, id);
         onClose();
     }
 
@@ -34,10 +37,16 @@ const OptionsMenu =  (props) => {
         onClose();
     }
 
+    const handleSetCorrectAnswer = () => {
+        setCorrectAnswer(exIndex, id)
+        onClose();
+    }
+
     const items = [
         {name: 'Delete', icon: <DeleteIcon fontSize='small' />, function: handleRemove},
         {name: 'Move up', icon: <UpIcon fontSize='small' />, function: handleMoveUp},
-        {name: 'Move down', icon: <DownIcon fontSize='small' />, function: handleMoveDown}
+        {name: 'Move down', icon: <DownIcon fontSize='small' />, function: handleMoveDown},
+        {name: 'Set correct answer', icon: <CheckIcon fontSize='small' />, function: handleSetCorrectAnswer}
     ]
 
     return (
@@ -68,9 +77,10 @@ OptionsMenu.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        removeOption: (exIndex, opIndex) => {dispatch(removeOptionInChoice(exIndex, opIndex))},
+        removeOption: (exIndex, opIndex, id) => {dispatch(removeOptionInChoice(exIndex, opIndex, id))},
         moveUpOption: (exIndex, opIndex) => {dispatch(moveUpOptionInChoice(exIndex, opIndex))},
         moveDownOption: (exIndex, opIndex) => {dispatch(moveDownOptionInChoice(exIndex, opIndex))},
+        setCorrectAnswer: (exIndex, id) => {dispatch(setCorrectAnswer(exIndex, id))},
     }
 }
 

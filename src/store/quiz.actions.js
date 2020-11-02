@@ -11,12 +11,14 @@ export const ADD_OPTION = 'ADD_OPTION';
 export const UPDATE_OPTION = 'UPDATE_OPTION';
 export const REMOVE_PARAGRAPH = 'REMOVE_PARAGRAPH';
 export const UPDATE_ELEMENT = 'UPDATE_ELEMENT';
+export const UPDATE_TEXT_PARAGRAPH = 'UPDATE_TEXT_PARAGRAPH';
 export const INSERT_GAP = 'INSERT_GAP';
 export const REMOVE_GAP = 'REMOVE_GAP';
 export const REORDER_PARAGRAPH = 'REORDER_PARAGRAPH';
 export const TOGGLE_IS_NUMBERED = 'TOGGLE_IS_NUMBERED';
 export const REMOVE_OPTION = 'REMOVE_OPTION';
 export const REORDER_OPTION = 'REORDER_OPTION';
+export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
 
 /*
 action creators
@@ -57,6 +59,7 @@ export const addChoice = () => {
             title: 'New exercise',
             subtitle: '',
             has_subtitle: false,
+            answer_key: [],
             options: [
                 {
                     id: makeCustomId(5),
@@ -66,6 +69,27 @@ export const addChoice = () => {
                     id: makeCustomId(5),
                     label: 'Option 2'
                 }
+            ],
+        }
+    }
+}
+
+
+
+export const addText = () => {
+    return { 
+        type: ADD_EXERCISE,
+        payload: {
+            type: 'text',
+            title: 'Write answer to the question:',
+            subtitle: '',
+            has_subtitle: false,
+            answer_key: [],
+            paragraphs: [
+                {
+                    id: makeCustomId(5),
+                    content: ''
+                },
             ],
         }
     }
@@ -92,6 +116,16 @@ export const addOption = (exIndex) => {
     return { 
         type: ADD_OPTION,
         exIndex: exIndex
+    }
+}
+
+export const setCorrectAnswer = (exIndex, id) => {
+    return { 
+        type: SET_CORRECT_ANSWER,
+        payload: {
+            exIndex: exIndex,
+            id: id
+        }
     }
 }
 
@@ -128,13 +162,13 @@ export const moveDownParagraphInGapFill = (exIndex, pgIndex) => {
 }
 
 
-
-export const removeOptionInChoice = (exIndex, opIndex) => {
+export const removeOptionInChoice = (exIndex, opIndex, id) => {
     return { 
         type: REMOVE_OPTION,
         payload: {
             exIndex: exIndex,
-            opIndex: opIndex
+            opIndex: opIndex,
+            id: id
         }
     }
 }
@@ -157,6 +191,17 @@ export const moveDownOptionInChoice = (exIndex, opIndex) => {
             exIndex: exIndex,
             opIndex: opIndex,
             offset: 1
+        }
+    }
+}
+
+export const updateTextParagraph = (exIndex, pgIndex, content) => {
+    return {
+        type: UPDATE_TEXT_PARAGRAPH,
+        payload: {
+            exIndex: exIndex,
+            pgIndex: pgIndex,
+            content: content
         }
     }
 }
