@@ -58,7 +58,7 @@ export const addChoice = () => {
         type: ADD_EXERCISE,
         payload: {
             type: 'choice',
-            title: 'New exercise',
+            title: 'Select correct answer:',
             subtitle: '',
             has_subtitle: false,
             answer_key: [],
