@@ -5,6 +5,8 @@ action types
 */
 
 export const ADD_EXERCISE = 'ADD_EXERCISE';
+export const UPDATE_TITLE = 'UPDATE_TITLE';
+export const UPDATE_DESCRIPTION = 'UPDATE_DESCRIPTION';
 export const UPDATE_EXERCISE_TITLE = 'UPDATE_EXERCISE_TITLE';
 export const ADD_PARAGRAPH = 'ADD_PARAGRAPH';
 export const ADD_OPTION = 'ADD_OPTION';
@@ -75,6 +77,23 @@ export const addChoice = () => {
 }
 
 
+export const updateTitle = (value) => {
+    return { 
+        type: UPDATE_TITLE,
+        payload: {
+            value: value
+        }
+    }
+}
+
+export const updateDescription = (value) => {
+    return { 
+        type: UPDATE_DESCRIPTION,
+        payload: {
+            value: value
+        }
+    }
+}
 
 export const addText = () => {
     return { 

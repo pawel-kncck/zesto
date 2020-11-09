@@ -1,8 +1,9 @@
-import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Box, makeStyles, Paper, TextField } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import AddExercise from './AddExercise';
 import Exercise from './Exercise';
+import { updateTitle, updateDescription } from '../store/quiz.actions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -13,12 +14,25 @@ const useStyles = makeStyles(theme => ({
         padding: '30px',
     },
     headerBox: {
-        padding: '20px',
+        paddingBottom: '20px',
+        paddingTop: '20px',
         '&:hover': {
             background: '#eee'
         },
         marginBottom: '30px'
     },
+    title: {
+        '& .MuiInputBase-input': {
+            margin: theme.spacing(1),
+            fontSize: '32px',
+        },
+    },
+    description: {
+        marginTop: '10px',
+        '& .MuiInputBase-input': {
+            margin: theme.spacing(1),
+        },
+    }
 }))
 
 const Workspace = (props) => {
@@ -29,11 +43,23 @@ const Workspace = (props) => {
         props.exercises ? setExercises(props.exercises) : setExercises([])
     }, [props.exercises])
 
+    const handleFocus = (event) => event.target.select();
+
     return (
         <Paper elevation={3} className={classes.root}>
             <Box className={classes.headerBox}>
-                <Typography variant='h2'>{props.title}</Typography>
-                <Typography variant='h4'>{props.desc}</Typography>
+                <TextField 
+                    className={classes.title}
+                    value={props.title} 
+                    onChange={(e) => props.updateTitle(e.target.value)} 
+                    onFocus={(e) => handleFocus(e)}
+                    fullWidth />
+                <TextField 
+                    className={classes.description}
+                    value={props.desc}
+                    onChange={(e) => props.updateDescription(e.target.value)}
+                    onFocus={(e) => handleFocus(e)}
+                    fullWidth />
             </Box>
             {exercises.map((exercise, index) => (
                 <Exercise key={index} type={exercise.type} mode='edit' index={index} />
@@ -51,4 +77,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps,null)(Workspace);
+const mapDispatchToProps = dispatch => {
+    return {
+        updateTitle: (value) => {dispatch(updateTitle(value))},
+        updateDescription: (value) => {dispatch(updateDescription(value))},
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Workspace);

@@ -82,6 +82,16 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+		case actionTypes.UPDATE_TITLE:
+			return {
+                ...state,
+                title: action.payload.value
+            }
+        case actionTypes.UPDATE_DESCRIPTION:
+            return {
+                ...state,
+                description: action.payload.value
+            }
 		case actionTypes.UPDATE_TEXT_PARAGRAPH:
             let newExerciseArrayUTP = [...state.sections[0].exercises]
             newExerciseArrayUTP[action.payload.exIndex].paragraphs[action.payload.pgIndex].content = action.payload.content

@@ -10,7 +10,7 @@ const useStyles = makeStyles({
 })
 
 const TextParagraph = (props) => {
-    const { id, value, onChange } = props;
+    const { value, onChange } = props;
     const classes = useStyles();
 
     return (
