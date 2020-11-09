@@ -46,7 +46,7 @@ const OptionsMenu =  (props) => {
         {name: 'Delete', icon: <DeleteIcon fontSize='small' />, function: handleRemove},
         {name: 'Move up', icon: <UpIcon fontSize='small' />, function: handleMoveUp},
         {name: 'Move down', icon: <DownIcon fontSize='small' />, function: handleMoveDown},
-        {name: 'Set correct answer', icon: <CheckIcon fontSize='small' />, function: handleSetCorrectAnswer}
+        // {name: 'Set correct answer', icon: <CheckIcon fontSize='small' />, function: handleSetCorrectAnswer}
     ]
 
     return (
