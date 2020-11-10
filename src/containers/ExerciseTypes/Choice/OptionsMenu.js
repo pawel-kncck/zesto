@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import DownIcon from '@material-ui/icons/ArrowDownward';
-import CheckIcon from '@material-ui/icons/Check';
-import { removeOptionInChoice, moveUpOptionInChoice, moveDownOptionInChoice, setCorrectAnswer } from '../../../store/quiz.actions';
+// import CheckIcon from '@material-ui/icons/Check';
+import { removeOptionInChoice, moveUpOptionInChoice, moveDownOptionInChoice } from '../../../store/quiz.actions';
+// import { setCorrectAnswer } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';
 
 const OptionsMenu =  (props) => {
@@ -19,7 +20,7 @@ const OptionsMenu =  (props) => {
         removeOption,
         moveUpOption,
         moveDownOption,
-        setCorrectAnswer
+        // setCorrectAnswer
     } = props
 
     const handleRemove = () => {
@@ -37,10 +38,10 @@ const OptionsMenu =  (props) => {
         onClose();
     }
 
-    const handleSetCorrectAnswer = () => {
-        setCorrectAnswer(exIndex, id)
-        onClose();
-    }
+    // const handleSetCorrectAnswer = () => {
+    //     setCorrectAnswer(exIndex, id)
+    //     onClose();
+    // }
 
     const items = [
         {name: 'Delete', icon: <DeleteIcon fontSize='small' />, function: handleRemove},
@@ -80,7 +81,7 @@ const mapDispatchToProps = dispatch => {
         removeOption: (exIndex, opIndex, id) => {dispatch(removeOptionInChoice(exIndex, opIndex, id))},
         moveUpOption: (exIndex, opIndex) => {dispatch(moveUpOptionInChoice(exIndex, opIndex))},
         moveDownOption: (exIndex, opIndex) => {dispatch(moveDownOptionInChoice(exIndex, opIndex))},
-        setCorrectAnswer: (exIndex, id) => {dispatch(setCorrectAnswer(exIndex, id))},
+        // setCorrectAnswer: (exIndex, id) => {dispatch(setCorrectAnswer(exIndex, id))},
     }
 }
 

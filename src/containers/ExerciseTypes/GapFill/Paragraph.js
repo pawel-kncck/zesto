@@ -12,13 +12,21 @@ const useStyles = makeStyles(theme => ({
         minHeight: '30px',
         background: 'inherit',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        // '&:hover $notchedOutline': {
+        //     borderColor: theme.palette.text.primary,
+        //   },
+        // '&$focused $notchedOutline': {
+        // borderColor: theme.palette.primary.main,
+        // borderWidth: 2,
+        // },
     },
     content: {
         background: 'rgb(255, 255, 255)',
         flexGrow: 1,
         padding: '9px 12px',
         lineHeight: '24px',
+        border: '1px solid #ccc',
     },
     number: {
         minWidth: '36px',
@@ -29,7 +37,11 @@ const useStyles = makeStyles(theme => ({
         height: '48px'
     },
     focus: {
-        outline: '1px solid #ccc'
+        borderColor: theme.palette.primary.main,
+        borderWidth: 2,
+    },
+    hover: {
+        borderColor: theme.palette.text.primary,
     },
     startDiv: {
         height: '18px',
@@ -41,17 +53,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Paragraph = (props) => {
-    const [focus, setFocus] = useState(true);
+    const [focus, setFocus] = useState(false);
+    const [hover, setHover] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
     const classes = useStyles();
-    const wrapperClasses = [classes.content, focus ? classes.focus : '']
+    const wrapperClasses = [classes.content, focus ? classes.focus : '', (hover && !focus) ? classes.hover : '']
 
     const handleFocus = () => {
         setFocus(true);
     }
 
     const handleBlur = () => {
-        setFocus(true);
+        setFocus(false);
     }
 
     const handleOpenMenu = (event) => {
@@ -65,7 +78,7 @@ const Paragraph = (props) => {
     return (
         <div className={classes.root}>
             <div className={classes.number}>{props.exercises[props.exIndex].is_numbered ? (props.pgIndex + 1) + '.' : null}</div>
-            <div className={wrapperClasses.join(' ')} onFocus={handleFocus} onBlur={handleBlur}>
+            <div className={wrapperClasses.join(' ')} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                 <div className={classes.startDiv} />
                 { props.paragraph.elements.map((element, elIndex) => {
                         switch (element.type) {
