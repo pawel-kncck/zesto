@@ -1,6 +1,7 @@
 import * as actionTypes from './editMode.actions';
 
 const initialState = {
+    active: true,
     caretPosition: {
         scIndex: null,
         exIndex: null,
@@ -24,13 +25,18 @@ const reducer = (state = initialState, action) => {
                     active: true
                 }
             }
-        case actionTypes.SET_EDIT_MODE:
+        case actionTypes.SET_PARAGRAPH_EDIT_MODE:
             return {
                 ...state,
                 caretPosition: {
                     ...state.caretPosition,
                     ...action.payload,
                 },
+            }
+        case actionTypes.SET_EDIT_MODE:
+            return {
+                ...state,
+                active: action.payload
             }
         case actionTypes.INSERT_BUTTON_HOVER_STATE:
             return {

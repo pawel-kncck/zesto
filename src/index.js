@@ -28,6 +28,9 @@ const theme = createMuiTheme({
   },
   shape: {
     borderRadius: '2px',
+  },
+  indent: {
+    secondIndent: '60px'
   }
 });
 

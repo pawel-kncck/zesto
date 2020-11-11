@@ -2,7 +2,7 @@ import React from 'react';
 import ContentEditable from 'react-contenteditable';
 import { connect } from 'react-redux';
 import { updateElement } from '../../../store/quiz.actions';
-import { setCaretPosition, setEditMode } from '../../../store/editMode.actions';
+import { setCaretPosition, setParagraphEditMode } from '../../../store/editMode.actions';
 import { withStyles } from '@material-ui/core';
 
 // Build with react-contenteditable 
@@ -100,8 +100,8 @@ const mapDispatchToProps = dispatch => {
   return {
     updateElement: (exIndex, pgIndex, elIndex, content ) => {dispatch(updateElement(exIndex, pgIndex, elIndex, content))},
     setCaretPosition: (exIndex, pgIndex, elIndex, caretIndex, containerPositionY) => {dispatch(setCaretPosition(exIndex, pgIndex, elIndex, caretIndex, containerPositionY))},
-    deactivateEditMode: () => {dispatch(setEditMode(false, 100))},
-    activateEditMode: () => {dispatch(setEditMode(true, 200))},
+    deactivateEditMode: () => {dispatch(setParagraphEditMode(false, 100))},
+    activateEditMode: () => {dispatch(setParagraphEditMode(true, 200))},
   }
 }
 

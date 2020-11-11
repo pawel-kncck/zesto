@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ExerciseCardMain from '../../../componenets/ExerciseCardMain';
-// import ExerciseCardOptions from '../../componenets/ExerciseCardOptions';
-import TitleField from '../../../componenets/TitleField';
+import ExerciseCardMain from '../../../componenets/EditMode/ExerciseCardMain';
+import TitleField from '../../../componenets/EditMode/TitleField';
 import OptionContainer from './OptionContainer';
 import { updateExerciseTitle, addOption, updateOption } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
-import ExerciseCardInsideButtons from '../../../componenets/ExerciseCardInsideButtons';
+import ExerciseCardInsideButtons from '../../../componenets/EditMode/ExerciseCardInsideButtons';
 
 const Choice = (props) => {
     const { exIndex } = props;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ExerciseCardMain from '../../../componenets/ExerciseCardMain';
-import TitleField from '../../../componenets/TitleField';
+import ExerciseCardMain from '../../../componenets/EditMode/ExerciseCardMain';
+import TitleField from '../../../componenets/EditMode/TitleField';
 import TextParagraph from './TextParagraph';
 import { updateExerciseTitle, updateTextParagraph } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';

@@ -1,4 +1,4 @@
-import { Box, makeStyles, Paper, TextField } from '@material-ui/core'
+import { Box, makeStyles, TextField } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import AddExercise from './AddExercise';
@@ -6,13 +6,6 @@ import Exercise from './Exercise';
 import { updateTitle, updateDescription } from '../store/quiz.actions'
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '795px',
-        minHeight: '500px',
-        margin: 'auto',
-        marginTop: '30px',
-        padding: '30px',
-    },
     headerBox: {
         paddingBottom: '20px',
         paddingTop: '20px',
@@ -46,7 +39,7 @@ const Workspace = (props) => {
     const handleFocus = (event) => event.target.select();
 
     return (
-        <Paper elevation={3} className={classes.root}>
+        <>
             <Box className={classes.headerBox}>
                 <TextField 
                     className={classes.title}
@@ -65,7 +58,7 @@ const Workspace = (props) => {
                 <Exercise key={index} type={exercise.type} mode='edit' index={index} />
             ))}
             <AddExercise />
-        </Paper>
+        </>
     )
 }
 

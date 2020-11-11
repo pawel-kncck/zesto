@@ -1,4 +1,4 @@
-import ExerciseCard from '../componenets/ExerciseCard';
+import ExerciseCard from '../componenets/EditMode/ExerciseCard';
 import React from 'react';
 import GapFill from './ExerciseTypes/GapFill/GapFill';
 import Choice from './ExerciseTypes/Choice/Choice';

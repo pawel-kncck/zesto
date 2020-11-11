@@ -1,7 +1,9 @@
 import { Button, FormControlLabel, makeStyles, Switch } from '@material-ui/core';
 import ShareIcon from '@material-ui/icons/Share';
-import React, { useState } from 'react'
+import React from 'react'
 import SaveIcon from '@material-ui/icons/Save';
+import { connect } from 'react-redux';
+import { setEditMode } from '../store/editMode.actions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,9 +20,8 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const LowerNavbar = () => {
+const LowerNavbar = (props) => {
     const classes = useStyles();
-    const [edit, setEdit] = useState(true);
 
     return (
         <div className={classes.root}>
@@ -28,8 +29,8 @@ const LowerNavbar = () => {
                     className={classes.buttonContainer}
                     control={
                     <Switch
-                        checked={edit}
-                        onChange={() => setEdit(!edit)}
+                        checked={props.editMode}
+                        onChange={() => props.setEditMode(!props.editMode)}
                         color="primary"
                     />
                     }
@@ -42,4 +43,16 @@ const LowerNavbar = () => {
     )
 }
 
-export default LowerNavbar;
+const mapStateToProps = state => {
+    return {
+        editMode: state.editMode.active
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setEditMode: (value) => {dispatch(setEditMode(value))},
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(LowerNavbar);

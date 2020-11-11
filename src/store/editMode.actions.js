@@ -4,6 +4,7 @@ action types
 
 export const SET_CARET_POSITION = 'SET_CARET_POSITION';
 export const INSERT_BUTTON_HOVER_STATE = 'INSERT_BUTTON_HOVER_STATE';
+export const SET_PARAGRAPH_EDIT_MODE = 'SET_PARAGRAPH_EDIT_MODE';
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 
 /*
@@ -24,31 +25,31 @@ export const setCaretPosition = (exIndex, pgIndex, elIndex, caretIndex, containe
     }
 }
 
-export const setEditMode = (isActive, timeOut = 0) => {
+export const setParagraphEditMode = (isActive, timeOut = 0) => {
     return dispatch => {
-        dispatch(editModeSettingStarted());
+        dispatch(paragraphEditModeSettingStarted());
         if (Boolean(timeOut)) {
             setTimeout(() => {
-                dispatch(editModeSettingFinalized(isActive));
+                dispatch(paragraphEditModeSettingFinalized(isActive));
             },timeOut)
         } else {
-            dispatch(editModeSettingFinalized(isActive));
+            dispatch(paragraphEditModeSettingFinalized(isActive));
         }
     }
 }
 
-export const editModeSettingStarted = () => {
+export const paragraphEditModeSettingStarted = () => {
     return {
-        type: SET_EDIT_MODE,
+        type: SET_PARAGRAPH_EDIT_MODE,
         payload: {
             modeChangeQueued: true
         }
     }
 }
 
-export const editModeSettingFinalized = (isActive) => {
+export const paragraphEditModeSettingFinalized = (isActive) => {
     return {
-        type: SET_EDIT_MODE,
+        type: SET_PARAGRAPH_EDIT_MODE,
         payload: {
             active: isActive,
             modeChangeQueued: false
@@ -62,5 +63,12 @@ export const insertButtonHoverState = (is_active) => {
         payload: {
             is_active: is_active
         }
+    }
+}
+
+export const setEditMode = (value) => {
+    return {
+        type: SET_EDIT_MODE,
+        payload: value
     }
 }

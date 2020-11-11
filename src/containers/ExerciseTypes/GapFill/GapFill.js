@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { insertButtonHoverState } from '../../../store/editMode.actions'
 import { addParagraph, insertGap, toggleIsNumbered, updateExerciseTitle } from '../../../store/quiz.actions';
 import Paragraph from './Paragraph';
-import TitleField from '../../../componenets/TitleField';
-import ExerciseCardMain from '../../../componenets/ExerciseCardMain';
-import ExerciseCardOptions from '../../../componenets/ExerciseCardOptions';
-import ExerciseCardInsideButtons from '../../../componenets/ExerciseCardInsideButtons';
+import TitleField from '../../../componenets/EditMode/TitleField';
+import ExerciseCardMain from '../../../componenets/EditMode/ExerciseCardMain';
+import ExerciseCardOptions from '../../../componenets/EditMode/ExerciseCardOptions';
+import ExerciseCardInsideButtons from '../../../componenets/EditMode/ExerciseCardInsideButtons';
 
 const useStyles = makeStyles({
     exerciseOptionsContainer: {
