@@ -95,7 +95,7 @@ const Paragraph = (props) => {
                     })
                 }
             </div>
-            <div className={classes.delete} onClick={(e) => handleOpenMenu(e)}>{focus ? <IconButton><MoreIcon /></IconButton> : null}</div>
+            <div className={classes.delete} onClick={(e) => handleOpenMenu(e)}><IconButton><MoreIcon /></IconButton></div>
             <ParagraphOptionsMenu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleCloseMenu} exIndex={props.exIndex} pgIndex={props.pgIndex} />
         </div>
     )

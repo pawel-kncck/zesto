@@ -55,7 +55,7 @@ const GapFill = (props) => {
                 <ExerciseCardInsideButtons>
                     <Button variant='outlined' onClick={() => props.addParagraph(props.exIndex)}>+ Add paragraph</Button>
                     <Button 
-                        disabled={!props.editMode.active}
+                        disabled={!(props.caretPosition.active && props.caretPosition.exIndex === props.exIndex)}
                         style={{ marginLeft: '15px' }}
                         variant='outlined'
                         onClick={handleInsertGap}
@@ -82,7 +82,6 @@ const GapFill = (props) => {
 const mapStateToProps = state => {
     return {
         exercises: state.quiz.sections[0].exercises,
-        editMode: state.editMode,
         caretPosition: state.editMode.caretPosition
     }
 }
