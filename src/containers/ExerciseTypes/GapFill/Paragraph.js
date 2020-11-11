@@ -13,13 +13,6 @@ const useStyles = makeStyles(theme => ({
         background: 'inherit',
         display: 'flex',
         alignItems: 'center',
-        // '&:hover $notchedOutline': {
-        //     borderColor: theme.palette.text.primary,
-        //   },
-        // '&$focused $notchedOutline': {
-        // borderColor: theme.palette.primary.main,
-        // borderWidth: 2,
-        // },
     },
     content: {
         background: 'rgb(255, 255, 255)',

@@ -7,6 +7,7 @@ import OptionContainer from './OptionContainer';
 import { updateExerciseTitle, addOption, updateOption } from '../../../store/quiz.actions';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
+import ExerciseCardInsideButtons from '../../../componenets/ExerciseCardInsideButtons';
 
 const Choice = (props) => {
     const { exIndex } = props;
@@ -28,8 +29,9 @@ const Choice = (props) => {
                     onChange={(event) => props.updateOption(props.exIndex, index, event.target.value)}
                 />
             ))}
-            <Button onClick={() => props.addOption(props.exIndex)}>+ Add option</Button>
-
+            <ExerciseCardInsideButtons>
+                <Button variant='outlined' onClick={() => props.addOption(props.exIndex)}>+ Add option</Button>
+            </ExerciseCardInsideButtons>
         </ExerciseCardMain>
     )
 }

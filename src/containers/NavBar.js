@@ -9,18 +9,23 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         boxShadow: theme.shadows[2],
+        background: theme.palette.primary.main,
         paddingRight: '10px',
     },
     brand: {
-        flexGrow: 1
+        flexGrow: 1,
+        color: theme.palette.common.offWhite
     },
+    homeIcon: {
+        color: theme.palette.common.offWhite
+    }
 }))
 
 const NavBar = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <IconButton><AppsIcon /></IconButton>
+            <IconButton className={classes.homeIcon}><AppsIcon /></IconButton>
             <Typography variant='h6' className={classes.brand}>Zesto</Typography>
             <Avatar>P</Avatar>
         </div>

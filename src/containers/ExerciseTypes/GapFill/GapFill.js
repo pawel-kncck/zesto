@@ -7,6 +7,7 @@ import Paragraph from './Paragraph';
 import TitleField from '../../../componenets/TitleField';
 import ExerciseCardMain from '../../../componenets/ExerciseCardMain';
 import ExerciseCardOptions from '../../../componenets/ExerciseCardOptions';
+import ExerciseCardInsideButtons from '../../../componenets/ExerciseCardInsideButtons';
 
 const useStyles = makeStyles({
     exerciseOptionsContainer: {
@@ -51,11 +52,15 @@ const GapFill = (props) => {
                         </Box>
                     ))
                 }
-                <Button onClick={() => props.addParagraph(props.exIndex)}>+ Add paragraph</Button>
-                <Button 
-                    disabled={!props.editMode.active}
-                    onClick={handleInsertGap}
-                >+ Insert gap</Button>
+                <ExerciseCardInsideButtons>
+                    <Button variant='outlined' onClick={() => props.addParagraph(props.exIndex)}>+ Add paragraph</Button>
+                    <Button 
+                        disabled={!props.editMode.active}
+                        style={{ marginLeft: '15px' }}
+                        variant='outlined'
+                        onClick={handleInsertGap}
+                    >+ Insert gap</Button>
+                </ExerciseCardInsideButtons>
             </ExerciseCardMain>
             <ExerciseCardOptions>
                 <FormControlLabel

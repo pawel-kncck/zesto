@@ -18,23 +18,13 @@ const initialState = {
                     is_numbered: true,
                     paragraphs: [
                         {
-                            id: 'rty765rt',
+                            id: makeCustomId(8),
                             position: 1,
                             type: 'list_item',
                             elements: [
                                 {
-                                    id: 'd3t54',
-                                    type: "text_run",
-                                    content: "This is the first time"
-                                },
-                                {
-                                    id: 'et45y',
-                                    type: "gap",
-                                },
-                                {
-                                    id: 'g28rg',
-                                    type: "text_run",
-                                    content: "ever."
+                                    type: 'text_run',
+                                    content: 'First sentence'
                                 }
                             ]
                         }
@@ -67,6 +57,18 @@ const reducer = (state = initialState, action) => {
                 sections: [
                     {
                         exercises: newExerciseArrayAE
+                    }
+                ]
+            }
+		case actionTypes.DELETE_EXERCISE:
+            let newExerciseArrayDE = [...state.sections[0].exercises]
+            newExerciseArrayDE.splice(action.payload.exIndex,1)
+
+			return {
+                ...state,
+                sections: [
+                    {
+                        exercises: newExerciseArrayDE
                     }
                 ]
             }
@@ -176,6 +178,28 @@ const reducer = (state = initialState, action) => {
                     sections: [
                         {
                             exercises: newExerciseArrayROOPT
+                        }
+                    ],
+                }
+            } else {
+                return {
+                    ...state
+                }
+            }
+        case actionTypes.REORDER_EXERCISE:
+            let newExerciseArrayRE = [...state.sections[0].exercises];
+            if (!(action.payload.exIndex === 0 && action.payload.offset === -1) && !(action.payload.exIndex === newExerciseArrayRE.length && action.payload.offset === 1)) {
+                const moveSegment = (array, from, to) => {
+                    array.splice(to, 0, array.splice(from, 1)[0]);
+                };
+                
+                moveSegment(newExerciseArrayRE, action.payload.exIndex, action.payload.exIndex + action.payload.offset);
+
+                return {
+                    ...state,
+                    sections: [
+                        {
+                            exercises: newExerciseArrayRE
                         }
                     ],
                 }

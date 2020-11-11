@@ -20,7 +20,9 @@ export const REORDER_PARAGRAPH = 'REORDER_PARAGRAPH';
 export const TOGGLE_IS_NUMBERED = 'TOGGLE_IS_NUMBERED';
 export const REMOVE_OPTION = 'REMOVE_OPTION';
 export const REORDER_OPTION = 'REORDER_OPTION';
+export const REORDER_EXERCISE = 'REORDER_EXERCISE';
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
+export const DELETE_EXERCISE = 'DELETE_EXERCISE';
 
 /*
 action creators
@@ -31,7 +33,7 @@ export const addGapFill = () => {
         type: ADD_EXERCISE,
         payload: {
             type: 'gap_fill',
-            title: 'New exercise',
+            title: 'Fill the gaps in the following sentences:',
             subtitle: '',
             has_subtitle: false,
             is_numbered: false,
@@ -76,6 +78,14 @@ export const addChoice = () => {
     }
 }
 
+export const deleteExercise = (exIndex) => {
+    return { 
+        type: DELETE_EXERCISE,
+        payload: {
+            exIndex: exIndex
+        }
+    }
+}
 
 export const updateTitle = (value) => {
     return { 
@@ -188,6 +198,26 @@ export const removeOptionInChoice = (exIndex, opIndex, id) => {
             exIndex: exIndex,
             opIndex: opIndex,
             id: id
+        }
+    }
+}
+
+export const moveUpExercise = (exIndex) => {
+    return { 
+        type: REORDER_EXERCISE,
+        payload: {
+            exIndex: exIndex,
+            offset: -1
+        }
+    }
+}
+
+export const moveDownExercise = (exIndex) => {
+    return { 
+        type: REORDER_EXERCISE,
+        payload: {
+            exIndex: exIndex,
+            offset: 1
         }
     }
 }

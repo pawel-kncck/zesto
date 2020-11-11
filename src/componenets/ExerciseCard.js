@@ -2,6 +2,8 @@ import React from 'react'
 import { makeStyles, IconButton } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
+import UpIcon from '@material-ui/icons/ArrowUpward';
+import DownIcon from '@material-ui/icons/ArrowDownward';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,14 +26,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ExerciseCard = (props) => {
-    const { children, onDelete={function () {}} } = props;
+    const { children, onDelete, onMoveUp, onMoveDown } = props;
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <div className={classes.topBar}></div>
             <div className={classes.actionsBar}>
-                <IconButton style={{ marginLeft: '20px' }}><DeleteIcon fontSize='small' onClick={onDelete} /></IconButton>
+                <IconButton onClick={onMoveUp}><UpIcon fontSize='small' /></IconButton>
+                <IconButton onClick={onMoveDown}><DownIcon fontSize='small' /></IconButton>
+                <IconButton onClick={onDelete}><DeleteIcon fontSize='small' /></IconButton>
             </div>
             {children}
         </div>
@@ -40,7 +44,9 @@ const ExerciseCard = (props) => {
 
 ExerciseCard.propTypes = {
     children: PropTypes.node,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    onMoveUp: PropTypes.func,
+    onMoveDown: PropTypes.func,
 }
 
 export default ExerciseCard;
