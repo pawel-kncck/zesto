@@ -1,39 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import NavBar from './containers/NavBar';
-import LowerNavbar from './containers/LowerNavbar';
-import EditingSpace from './containers/EditingSpace';
-import StandardView from './containers/StandardView';
-import { makeStyles, Paper } from '@material-ui/core';
-import { connect } from 'react-redux';
+import LoginPage from './containers/Authentication/LoginPage';
+import SignUpPage from './containers/Authentication/SignUpPage';
+import ProtectedRoute from './hoc/ProtectedRoute';
+import Workspace from './containers/Workspace';
 
-const useStyles = makeStyles(theme => ({
-  main: {
-      width: '795px',
-      minHeight: '500px',
-      margin: 'auto',
-      marginTop: '30px',
-      padding: '30px',
-  },
-}))
 
-function App(props) {
-  const classes = useStyles();
+function App() {
+  const [user, setUser] = useState(true);
+
+  const toggleUser = () => {
+    setUser(!user);
+  }
   
   return (
-    <>
-      <NavBar />
-      <LowerNavbar />
-      <Paper elevation={3} className={classes.main}>
-        { props.editMode ? <EditingSpace /> : <StandardView /> }
-      </Paper>
-    </>
+    <BrowserRouter>
+      <NavBar user={user} toggleUser={toggleUser}/>
+      <Switch>
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignUpPage} />
+        <ProtectedRoute path='/q/:id' user={user} component={Workspace} />
+      </Switch>
+    </BrowserRouter>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    editMode: state.editMode.active
-  }
-}
-
-export default connect(mapStateToProps,null)(App);
+export default App;
