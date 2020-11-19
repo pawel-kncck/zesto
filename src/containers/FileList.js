@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import AddIcon from '@material-ui/icons/Add';
-import { Fab, IconButton, List, ListItem, makeStyles } from '@material-ui/core';
+import { Fab, makeStyles } from '@material-ui/core';
 import LoadingScreen from '../componenets/LoadingScreen';
 import { AuthContext } from '../containers/Authentication/contex';
-import { createNewQuiz, deleteQuizById } from '../database/functions';
+import { createNewQuiz } from '../database/functions';
 import { useHistory } from 'react-router';
 import firebase from '../firebase';
-import { Link } from 'react-router-dom';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { jsonToObject } from '../utils/converters';
+import FileListItem from '../componenets/FileListItem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,7 +35,8 @@ const FileList = () => {
             .onSnapshot((snapshot) => {
                 let quizzesFromSnapshot = []
                 snapshot.forEach(doc => {
-                    quizzesFromSnapshot.push(({...doc.data(), id: doc.id}));
+                    const bodyObject = jsonToObject(doc.data().body)
+                    quizzesFromSnapshot.push({...doc.data(), body: bodyObject, id: doc.id});
                 });
                 setQuizzes(quizzesFromSnapshot);
         });
@@ -55,19 +56,25 @@ const FileList = () => {
             })
     }
 
+    const handleFileOpen = (type, id) => {
+        const targetUrl = 'q/' + id
+        if (type === 'quiz') {
+            history.push(targetUrl)
+        }
+    }
+
     return (
         <div className={classes.root}>
-            <div>List of files</div>
-                <List>
-                    {quizzes.map(quiz => {
-                        return (
-                            <ListItem key={quiz.id}>
-                                <Link to={'q/' + quiz.id}>{quiz.id}</Link>
-                                <IconButton onClick={() => deleteQuizById(quiz.id)}><DeleteIcon /></IconButton>
-                            </ListItem>
-                        )
-                    })}
-                </List>
+            {quizzes.map(quiz => {
+                return (
+                    <FileListItem key={quiz.id} id={quiz.id} name={quiz.body.title} type='quiz' lastUpdated={quiz.body.lastUpdatedAt} onClick={() => handleFileOpen('quiz', quiz.id)}/>
+                    // <ListItem key={quiz.id}>
+                    //     <Link to={'q/' + quiz.id}>{quiz.body.title}</Link>
+                    //     <IconButton onClick={() => deleteQuizById(quiz.id)}><DeleteIcon /></IconButton>
+                    // </ListItem>
+
+                )
+            })}
             <div className={classes.fab}>
                 <Fab color="primary" aria-label="add" onClick={handleNewFile}>
                     <AddIcon />

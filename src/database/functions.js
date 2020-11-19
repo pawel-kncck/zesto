@@ -8,6 +8,7 @@ export const createNewQuiz = (userId) => {
 
     const docData = {
         author: userId,
+        owner: userId,
         users: [userId],
         createdAt: createdDate,
         lastUpdatedAt: createdDate,
@@ -27,6 +28,22 @@ export const deleteQuizById = (quizId) => {
     const db = firebase.firestore();
 
     return db.collection("quizzes").doc(quizId).delete()
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return err;
+        })
+}
+
+export const updateQuizById = (quizId, quizBodyObject) => {
+    const db = firebase.firestore();
+    const updateDate = new Date();
+
+    return db.collection("quizzes").doc(quizId).update({
+        lastUpdatedAt: updateDate,
+        body: objectToJson(quizBodyObject)
+    })
         .then(res => {
             return res;
         })

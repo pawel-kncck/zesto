@@ -1,9 +1,10 @@
-import { Avatar, Button, IconButton, makeStyles, Typography } from '@material-ui/core'
+import { Button, IconButton, makeStyles, Typography } from '@material-ui/core'
 import React, { useContext, useEffect } from 'react'
 import { AuthContext } from './Authentication/contex';
 import AppsIcon from '@material-ui/icons/Apps';
 import app from '../firebase';
 import { useHistory } from 'react-router';
+import Avatar from '../componenets/Avatar';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,7 +38,7 @@ const NavBar = () => {
         <div className={classes.root}>
             <IconButton className={classes.homeIcon} onClick={() => history.push('/')}><AppsIcon /></IconButton>
             <Typography variant='h6' className={classes.brand}>Zesto</Typography>
-            <Avatar>P</Avatar>
+            {user ? <Avatar src={user.photoURL} displayName={user.displayName}></Avatar> : null}
             {user ? <Button onClick={() => app.auth().signOut()}>Logout</Button> : null}
         </div>
     )

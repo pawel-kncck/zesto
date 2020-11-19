@@ -4,6 +4,7 @@ import React from 'react'
 import SaveIcon from '@material-ui/icons/Save';
 import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
+import { updateQuizById } from '../database/functions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,14 +39,24 @@ const LowerNavbar = (props) => {
                     labelPlacement='start'
                 />
             <div className={classes.buttonContainer}><Button size='small' color='primary' variant='contained' startIcon={<ShareIcon />}>Share</Button></div>
-            <div className={classes.buttonContainer}><Button size='small' color='primary' variant='contained' startIcon={<SaveIcon />} disabled={props.upToDate}>Save</Button></div>
+            <div className={classes.buttonContainer}>
+                <Button 
+                    size='small' 
+                    color='primary'
+                    variant='contained'
+                    startIcon={<SaveIcon />}
+                    disabled={props.upToDate}
+                    onClick={() => updateQuizById(props.quizId, props.quizBodyObject)}
+                >Save</Button>
+            </div>
         </div>
     )
 }
 
 const mapStateToProps = state => {
     return {
-        editMode: state.editMode.active
+        editMode: state.editMode.active,
+        quizBodyObject: state.quiz,
     }
 }
 
