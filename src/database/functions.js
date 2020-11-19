@@ -23,6 +23,18 @@ export const createNewQuiz = (userId) => {
         })
 }
 
+export const deleteQuizById = (quizId) => {
+    const db = firebase.firestore();
+
+    return db.collection("quizzes").doc(quizId).delete()
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return err;
+        })
+}
+
 export const getQuizById = (quizId) => {
     const db = firebase.firestore();
 

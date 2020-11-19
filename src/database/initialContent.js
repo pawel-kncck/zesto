@@ -1,9 +1,9 @@
 import { makeCustomId } from '../utils/generators'
 
 export const initialQuizWithGapFill = {
-    title: "Untilted quiz",
+    title: 'Untilted quiz',
     description: 'Quiz description',
-    has_many_sections: false,
+    hasManySections: false,
     sections: [
         {
             position: 1,
@@ -13,8 +13,8 @@ export const initialQuizWithGapFill = {
                     type: 'gap_fill',
                     title: 'Fill the gaps in the following sentences:',
                     subtitle: '',
-                    has_subtitle: false,
-                    is_numbered: true,
+                    hasSubtitle: false,
+                    isNumbered: true,
                     paragraphs: [
                         {
                             id: makeCustomId(8),

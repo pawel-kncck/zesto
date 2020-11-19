@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { loadState } from '../store/quiz.actions';
 import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
+import { objectToJson } from '../utils/converters';
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -18,25 +19,31 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function Workspace(props) {
+function Workspace({ loadState, ...props }) {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
+  const [lastLoadContent, setLastLoadContent] = useState(null);
   const quizId = props.match.params.id || null;
+  const isDatabaseSyncWithState = (lastLoadContent === objectToJson(props.quizCurrentState));
 
   useEffect(() => {
     const unsubscribe = firebase.firestore().collection("quizzes").doc(quizId)
       .onSnapshot(doc => {
-          props.loadState(doc.data().body);
+          loadState(doc.data().body);
+          setLastLoadContent(doc.data().body);
           setLoaded(true);
       });
       return () => {
           unsubscribe();
       }
-  },[props, quizId])
+  },[loadState, quizId])
+
+  console.log(lastLoadContent);
   
   return (
     <>
-        <LowerNavbar />
+        <LowerNavbar upToDate={isDatabaseSyncWithState} />
+        <div>{isDatabaseSyncWithState ? "TRUE" : "FALSE"}</div>
         {loaded
           ? <Paper elevation={3} className={classes.main}>
               { props.editMode ? <EditingSpace /> : <StandardView /> }
@@ -49,13 +56,14 @@ function Workspace(props) {
 
 const mapStateToProps = state => {
   return {
-    editMode: state.editMode.active
+    editMode: state.editMode.active,
+    quizCurrentState: state.quiz,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      loadState: (json) => {dispatch(loadState(json))},
+    loadState: (json) => {dispatch(loadState(json))},
   }
 }
 

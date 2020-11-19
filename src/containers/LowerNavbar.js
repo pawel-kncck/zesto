@@ -38,7 +38,7 @@ const LowerNavbar = (props) => {
                     labelPlacement='start'
                 />
             <div className={classes.buttonContainer}><Button size='small' color='primary' variant='contained' startIcon={<ShareIcon />}>Share</Button></div>
-            <div className={classes.buttonContainer}><Button size='small' color='primary' variant='contained' startIcon={<SaveIcon />}>Save</Button></div>
+            <div className={classes.buttonContainer}><Button size='small' color='primary' variant='contained' startIcon={<SaveIcon />} disabled={props.upToDate}>Save</Button></div>
         </div>
     )
 }
