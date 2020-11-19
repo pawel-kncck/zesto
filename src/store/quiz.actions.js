@@ -1,4 +1,6 @@
 import { makeCustomId } from '../utils/generators'
+import { jsonToObject } from '../utils/converters'
+
 
 /*
 action types
@@ -23,10 +25,20 @@ export const REORDER_OPTION = 'REORDER_OPTION';
 export const REORDER_EXERCISE = 'REORDER_EXERCISE';
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
 export const DELETE_EXERCISE = 'DELETE_EXERCISE';
+export const LOAD_STATE = 'LOAD_STATE';
 
 /*
 action creators
 */
+
+export const loadState = (json) => {
+    return {
+        type: LOAD_STATE,
+        payload: {
+            body: jsonToObject(json)
+        }
+    }
+}
 
 export const addGapFill = () => {
     return { 
@@ -35,8 +47,8 @@ export const addGapFill = () => {
             type: 'gap_fill',
             title: 'Fill the gaps in the following sentences:',
             subtitle: '',
-            has_subtitle: false,
-            is_numbered: false,
+            hasSubtitle: false,
+            isNumbered: false,
             paragraphs: [
                 {
                     id: makeCustomId(8),
@@ -62,8 +74,8 @@ export const addChoice = () => {
             type: 'choice',
             title: 'Select correct answer:',
             subtitle: '',
-            has_subtitle: false,
-            answer_key: [],
+            hasSubtitle: false,
+            answerKey: [],
             options: [
                 {
                     id: makeCustomId(5),
@@ -112,8 +124,8 @@ export const addText = () => {
             type: 'text',
             title: 'Write answer to the question:',
             subtitle: '',
-            has_subtitle: false,
-            answer_key: [],
+            hasSubtitle: false,
+            answerKey: [],
             paragraphs: [
                 {
                     id: makeCustomId(5),

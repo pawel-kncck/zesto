@@ -1,10 +1,12 @@
-import { Avatar, FormControlLabel, IconButton, makeStyles, Switch, Typography } from '@material-ui/core'
-import React from 'react'
+import { Avatar, Button, IconButton, makeStyles, Typography } from '@material-ui/core'
+import React, { useContext, useEffect } from 'react'
+import { AuthContext } from './Authentication/contex';
 import AppsIcon from '@material-ui/icons/Apps';
+import app from '../firebase';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        positon: 'sticky',
         height: 52,
         display: 'flex',
         alignItems: 'center',
@@ -21,25 +23,22 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const NavBar = (props) => {
+const NavBar = () => {
     const classes = useStyles();
+    const { user } = useContext(AuthContext);
+    const history = useHistory();
+
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+
+
     return (
         <div className={classes.root}>
-            <IconButton className={classes.homeIcon}><AppsIcon /></IconButton>
+            <IconButton className={classes.homeIcon} onClick={() => history.push('/')}><AppsIcon /></IconButton>
             <Typography variant='h6' className={classes.brand}>Zesto</Typography>
-            <FormControlLabel
-                style={{ margin: '0 20px', color: '#fafafa' }}
-                control={
-                <Switch
-                    checked={props.user}
-                    onChange={props.toggleUser}
-                    color='default'
-                />
-                }
-                label="Login"
-                labelPlacement='start'
-            />
             <Avatar>P</Avatar>
+            {user ? <Button onClick={() => app.auth().signOut()}>Logout</Button> : null}
         </div>
     )
 }

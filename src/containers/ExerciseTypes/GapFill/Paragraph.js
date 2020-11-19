@@ -70,7 +70,7 @@ const Paragraph = (props) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.number}>{props.exercises[props.exIndex].is_numbered ? (props.pgIndex + 1) + '.' : null}</div>
+            <div className={classes.number}>{props.exercises[props.exIndex].isNumbered ? (props.pgIndex + 1) + '.' : null}</div>
             <div className={wrapperClasses.join(' ')} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                 <div className={classes.startDiv} />
                 { props.paragraph.elements.map((element, elIndex) => {

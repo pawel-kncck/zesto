@@ -1,13 +1,6 @@
 {
     "title": "Sample quiz",
     "description": "",
-    "last_saved": "timestamp",
-    "created_at": "2020-10-20",
-    "author": {
-        "id": "r64rtyu8",
-        "display_name": "John Smith",
-        "email": "john@zesto.com"
-    },
     "has_many_sections": false,
     "sections": [
         {
@@ -41,7 +34,7 @@
                 }
 
             ]
-        }
+        },
         {
             "id": "bdo8yh4rg",
             "position": 2,

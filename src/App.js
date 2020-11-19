@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import NavBar from './containers/NavBar';
 import LoginPage from './containers/Authentication/LoginPage';
 import SignUpPage from './containers/Authentication/SignUpPage';
 import ProtectedRoute from './hoc/ProtectedRoute';
 import Workspace from './containers/Workspace';
+import Home from './containers/FileList'
+import { AuthProvider } from './containers/Authentication/contex';
 
 
 function App() {
-  const [user, setUser] = useState(true);
-
-  const toggleUser = () => {
-    setUser(!user);
-  }
   
   return (
-    <BrowserRouter>
-      <NavBar user={user} toggleUser={toggleUser}/>
-      <Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/signup" component={SignUpPage} />
-        <ProtectedRoute path='/q/:id' user={user} component={Workspace} />
-      </Switch>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Switch>
+          <ProtectedRoute path="/" exact component={Home} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/signup" component={SignUpPage} />
+          <ProtectedRoute path='/q/:id' component={Workspace} />
+        </Switch>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

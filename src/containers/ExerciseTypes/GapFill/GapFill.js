@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 
 const GapFill = (props) => {
     const classes = useStyles();
-    const isNumbered = props.exercises[props.exIndex].is_numbered;
+    const isNumbered = props.exercises[props.exIndex].isNumbered;
 
     const handleInsertGap = () => {
         const exIndex = props.caretPosition.exIndex;

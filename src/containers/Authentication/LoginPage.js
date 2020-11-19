@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(36),
     },
     form: {
-      width: theme.spacing(36),
+      width: theme.spacing(26),
       '& > *': {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
@@ -49,6 +49,7 @@ const LoginCard = () => {
             <Typography variant="h5">Login</Typography>
             <TextField fullWidth type="email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField fullWidth type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Typography variant='body2' align='right'>Forget password?</Typography>
             <Button variant="outlined" disabled={!isValid} onClick={handleLogin}>Login</Button>
           </FormControl>
       </Paper>

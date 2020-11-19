@@ -1,53 +1,16 @@
 import { makeCustomId } from '../utils/generators'
 import * as actionTypes from './quiz.actions';
 
-const initialState = {
-    title: 'Untilted quiz',
-    description: 'Quiz description',
-    has_many_sections: false,
-    sections: [
-        {
-            position: 1,
-            exercises: [
-                {
-                    id: 'e654edfgh',
-                    type: 'gap_fill',
-                    title: 'Fill the gaps in the following sentences:',
-                    subtitle: '',
-                    has_subtitle: false,
-                    is_numbered: true,
-                    paragraphs: [
-                        {
-                            id: makeCustomId(8),
-                            position: 1,
-                            type: 'list_item',
-                            elements: [
-                                {
-                                    type: 'text_run',
-                                    content: 'First sentence'
-                                }
-                            ]
-                        }
-                    ],
-                    gaps: [
-                        {
-                            id: "et45y",
-                            type: "short_gap",
-                            answer_key: "",
-                            placeholder: "example",
-                            default: "",
-                            disabled: false,
-                            points: 1
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
+const initialState = {};
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+
+		case actionTypes.LOAD_STATE:
+			return {
+                ...state,
+                ...action.payload.body
+            }
 		case actionTypes.ADD_EXERCISE:
             let newExerciseArrayAE = [...state.sections[0].exercises]
             newExerciseArrayAE.push(action.payload)
@@ -257,7 +220,7 @@ const reducer = (state = initialState, action) => {
             }
         case actionTypes.TOGGLE_IS_NUMBERED:
             let newExerciseArrayTIN = [...state.sections[0].exercises]
-            newExerciseArrayTIN[action.payload.exIndex].is_numbered = !newExerciseArrayTIN[action.payload.exIndex].is_numbered
+            newExerciseArrayTIN[action.payload.exIndex].isNumbered = !newExerciseArrayTIN[action.payload.exIndex].isNumbered
 
             return {
                 ...state,
