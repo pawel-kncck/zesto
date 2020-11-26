@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const LowerNavbar = (props) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
-  const isOwner = user.uid === props.owner;
+  const isOwner = props.owners ? props.owners.includes(user.uid) : false;
 
   return (
     <div className={classes.root}>
@@ -88,7 +88,7 @@ const mapStateToProps = (state) => {
     editMode: state.editMode.active,
     quizBodyObject: state.quiz,
     quizAnswersObject: state.answers,
-    owner: state.metadata.owner,
+    owners: state.metadata.owners,
   };
 };
 

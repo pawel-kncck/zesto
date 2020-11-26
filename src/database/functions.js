@@ -8,7 +8,7 @@ export const createNewQuiz = (userId) => {
 
   const docData = {
     author: userId,
-    owner: userId,
+    owners: [userId],
     users: [userId],
     createdAt: createdDate,
     lastUpdatedAt: createdDate,
