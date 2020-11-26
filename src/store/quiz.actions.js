@@ -68,6 +68,7 @@ export const addChoice = () => {
   return {
     type: ADD_EXERCISE,
     payload: {
+      id: makeCustomId(9),
       type: 'choice',
       title: 'Select correct answer:',
       subtitle: '',
