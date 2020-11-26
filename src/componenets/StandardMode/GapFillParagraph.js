@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import Gap from './Gap';
+import Gap from '../../containers/StandardMode/Gap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ const GapFillParagraph = ({ paragraph, pgIndex, isNumbered }) => {
         if (element.type === 'text_run') {
           return <span key={'s' + index}>{element.content}</span>;
         } else if (element.type === 'gap') {
-          return <Gap key={'g' + index} />;
+          return <Gap key={'g' + index} id={element.id} />;
         } else {
           return null;
         }

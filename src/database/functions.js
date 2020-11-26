@@ -3,63 +3,75 @@ import { initialQuizWithGapFill } from './initialContent';
 import { objectToJson } from '../utils/converters';
 
 export const createNewQuiz = (userId) => {
-    const db = firebase.firestore();
-    const createdDate = new Date();
+  const db = firebase.firestore();
+  const createdDate = new Date();
 
-    const docData = {
-        author: userId,
-        owner: userId,
-        users: [userId],
-        createdAt: createdDate,
-        lastUpdatedAt: createdDate,
-        body: objectToJson(initialQuizWithGapFill),
-    }
+  const docData = {
+    author: userId,
+    owner: userId,
+    users: [userId],
+    createdAt: createdDate,
+    lastUpdatedAt: createdDate,
+    body: objectToJson(initialQuizWithGapFill),
+  };
 
-    return db.collection("quizzes").add(docData)
-        .then(res => {
-            return res;
-        })
-        .catch(err => {
-            return err;
-        })
-}
+  return db
+    .collection('quizzes')
+    .add(docData)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
 
 export const deleteQuizById = (quizId) => {
-    const db = firebase.firestore();
+  const db = firebase.firestore();
 
-    return db.collection("quizzes").doc(quizId).delete()
-        .then(res => {
-            return res;
-        })
-        .catch(err => {
-            return err;
-        })
-}
-
-export const updateQuizById = (quizId, quizBodyObject) => {
-    const db = firebase.firestore();
-    const updateDate = new Date();
-
-    return db.collection("quizzes").doc(quizId).update({
-        lastUpdatedAt: updateDate,
-        body: objectToJson(quizBodyObject)
+  return db
+    .collection('quizzes')
+    .doc(quizId)
+    .delete()
+    .then((res) => {
+      return res;
     })
-        .then(res => {
-            return res;
-        })
-        .catch(err => {
-            return err;
-        })
-}
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const updateQuizById = (quizId, quizBodyObject, quizAnswersObject) => {
+  const db = firebase.firestore();
+  const updateDate = new Date();
+
+  return db
+    .collection('quizzes')
+    .doc(quizId)
+    .update({
+      lastUpdatedAt: updateDate,
+      body: objectToJson(quizBodyObject),
+      answers: objectToJson(quizAnswersObject),
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
 
 export const getQuizById = (quizId) => {
-    const db = firebase.firestore();
+  const db = firebase.firestore();
 
-    return db.collection("quizzes").doc(quizId).get()
-        .then(res => {
-            return res;
-        })
-        .catch(err => {
-            return err;
-        })
-}
+  return db
+    .collection('quizzes')
+    .doc(quizId)
+    .get()
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
