@@ -5,11 +5,12 @@ import {
   Switch,
 } from '@material-ui/core';
 import ShareIcon from '@material-ui/icons/Share';
-import React from 'react';
+import React, { useContext } from 'react';
 import SaveIcon from '@material-ui/icons/Save';
 import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
 import { updateQuizById } from '../database/functions';
+import { AuthContext } from '../containers/Authentication/contex';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,31 +29,38 @@ const useStyles = makeStyles((theme) => ({
 
 const LowerNavbar = (props) => {
   const classes = useStyles();
+  const { user } = useContext(AuthContext);
+  const isOwner = user.uid === props.owner;
 
   return (
     <div className={classes.root}>
-      <FormControlLabel
-        className={classes.buttonContainer}
-        control={
-          <Switch
-            checked={props.editMode}
-            onChange={() => props.setEditMode(!props.editMode)}
-            color="primary"
+      {isOwner ? (
+        <>
+          <FormControlLabel
+            className={classes.buttonContainer}
+            control={
+              <Switch
+                checked={props.editMode}
+                onChange={() => props.setEditMode(!props.editMode)}
+                color="primary"
+              />
+            }
+            label="Editing"
+            labelPlacement="start"
           />
-        }
-        label="Editing"
-        labelPlacement="start"
-      />
-      <div className={classes.buttonContainer}>
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          startIcon={<ShareIcon />}
-        >
-          Share
-        </Button>
-      </div>
+          <div className={classes.buttonContainer}>
+            <Button
+              size="small"
+              color="primary"
+              variant="contained"
+              startIcon={<ShareIcon />}
+            >
+              Share
+            </Button>
+          </div>
+        </>
+      ) : null}
+
       <div className={classes.buttonContainer}>
         <Button
           size="small"
@@ -80,6 +88,7 @@ const mapStateToProps = (state) => {
     editMode: state.editMode.active,
     quizBodyObject: state.quiz,
     quizAnswersObject: state.answers,
+    owner: state.metadata.owner,
   };
 };
 

@@ -6,10 +6,12 @@ import { makeStyles, Paper } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { loadQuizState } from '../store/quiz.actions';
 import { loadAnswersState } from '../store/answers.actions';
+import { loadMetadataState } from '../store/metadata.actions';
 import { setEditMode } from '../store/editMode.actions';
 import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
 import { objectToJson } from '../utils/converters';
+import { ControlCamera } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -23,13 +25,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Workspace({ loadState, ...props }) {
   const classes = useStyles();
-  const [loaded, setLoaded] = useState(false);
-  const [lastLoadBody, setLastLoadBody] = useState(null);
-  const [lastLoadAnswers, setLastLoadAnswers] = useState(null);
+  const [lastLoad, setLastLoad] = useState(null);
+  const statesCombined = {
+    body: objectToJson(props.bodyState),
+    answers: objectToJson(props.answersState),
+  };
   const quizId = props.match.params.id || null;
   const isDatabaseSyncWithState =
-    lastLoadBody === objectToJson(props.quizCurrentState) &&
-    lastLoadAnswers === objectToJson(props.answersCurrentState);
+    JSON.stringify(lastLoad) === JSON.stringify(statesCombined);
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -37,10 +40,13 @@ function Workspace({ loadState, ...props }) {
       .collection('quizzes')
       .doc(quizId)
       .onSnapshot((doc) => {
-        loadState(doc.data().body, doc.data().answers);
-        setLastLoadBody(doc.data().body || '{}');
-        setLastLoadAnswers(doc.data().answers || '{}');
-        setLoaded(true);
+        const { body, answers, ...metadata } = doc.data();
+
+        loadState(body, answers, metadata);
+        setLastLoad({
+          body: body || '{}',
+          answers: answers || '{}',
+        });
       });
     return () => {
       unsubscribe();
@@ -54,7 +60,7 @@ function Workspace({ loadState, ...props }) {
   return (
     <>
       <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId} />
-      {loaded ? (
+      {Boolean(lastLoad) ? (
         <Paper elevation={3} className={classes.main}>
           {props.editMode ? <EditingSpace /> : <StandardView />}
         </Paper>
@@ -68,16 +74,17 @@ function Workspace({ loadState, ...props }) {
 const mapStateToProps = (state) => {
   return {
     editMode: state.editMode.active,
-    quizCurrentState: state.quiz,
-    answersCurrentState: state.answers,
+    bodyState: state.quiz,
+    answersState: state.answers,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadState: (body, answers) => {
+    loadState: (body, answers, metadata) => {
       dispatch(loadQuizState(body));
       dispatch(loadAnswersState(answers));
+      dispatch(loadMetadataState(metadata));
     },
     loadStandardView: () => {
       dispatch(setEditMode(false));
