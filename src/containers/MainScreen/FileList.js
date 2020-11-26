@@ -78,13 +78,10 @@ const FileList = () => {
             id={quiz.id}
             name={quiz.body.title}
             type="quiz"
+            isOwner={quiz.owners.includes(user.uid)}
             lastUpdated={quiz.body.lastUpdatedAt}
             onClick={() => handleFileOpen('quiz', quiz.id)}
           />
-          // <ListItem key={quiz.id}>
-          //     <Link to={'q/' + quiz.id}>{quiz.body.title}</Link>
-          //     <IconButton onClick={() => deleteQuizById(quiz.id)}><DeleteIcon /></IconButton>
-          // </ListItem>
         );
       })}
       <div className={classes.fab}>

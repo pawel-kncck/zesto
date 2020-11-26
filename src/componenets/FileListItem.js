@@ -37,6 +37,7 @@ const FileListItem = ({
   id,
   name,
   type,
+  isOwner,
   onClick /*lastUpdated, ownerId */,
 }) => {
   const classes = useStyles();
@@ -56,7 +57,11 @@ const FileListItem = ({
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(event.currentTarget);
+  };
+
+  const handleMenuClose = (event) => {
+    setAnchorEl(false);
+    setHover(false);
   };
 
   return (
@@ -71,15 +76,15 @@ const FileListItem = ({
       <div className={classes.fileName} onClick={onClick}>
         {name}
       </div>
-      <IconButton onClick={handleMenuClick}>
+      <IconButton onClick={handleMenuClick} disabled={!isOwner}>
         <MoreVertIcon />
       </IconButton>
 
-      {anchorEl ? (
+      {Boolean(anchorEl) && isOwner ? (
         <OptionsMenu
           fileId={id}
           anchorEl={anchorEl}
-          onClose={() => setAnchorEl(false)}
+          onClose={handleMenuClose}
         />
       ) : null}
     </div>

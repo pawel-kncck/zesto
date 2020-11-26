@@ -1,5 +1,3 @@
-import { jsonToObject } from '../utils/converters';
-
 /*
 action types
 */

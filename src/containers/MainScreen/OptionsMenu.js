@@ -23,7 +23,9 @@ const OptionsMenu = ({ fileId, anchorEl, onClose }) => {
         onClose={() => onClose()}
       >
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
-        <MenuItem onClick={onClose}>Option 2</MenuItem>
+        {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
+        {/* <MenuItem onClick={onClose}>Duplicate</MenuItem> */}
+        {/* <MenuItem onClick={onClose}>Move</MenuItem> */}
       </Menu>
       <Dialog open={confDialogOpen}>
         <DialogTitle>Delete confirmation</DialogTitle>

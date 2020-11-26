@@ -11,7 +11,6 @@ import { setEditMode } from '../store/editMode.actions';
 import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
 import { objectToJson } from '../utils/converters';
-import { ControlCamera } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -55,7 +54,7 @@ function Workspace({ loadState, ...props }) {
 
   useEffect(() => {
     props.loadStandardView();
-  }, []);
+  }, [props]);
 
   return (
     <>

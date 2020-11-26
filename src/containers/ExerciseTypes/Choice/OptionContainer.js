@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 const OptionContainer = (props) => {
-  const { id, answer_key, value, onChange, exIndex } = props;
+  const { id, value, onChange, exIndex } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
 
