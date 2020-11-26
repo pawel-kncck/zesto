@@ -6,6 +6,7 @@ action types
 
 export const LOAD_ANSWERS_STATE = 'LOAD_ANSWERS_STATE';
 export const SET_ANSWER = 'SET_ANSWER';
+export const REMOVE_ANSWER = 'REMOVE_ANSWER';
 
 /*
 action creators
@@ -27,11 +28,18 @@ export const loadAnswersState = (json) => {
 };
 
 export const setAnswer = (id, value) => {
-  return {
-    type: SET_ANSWER,
-    payload: {
-      id: id,
-      value: value,
-    },
-  };
+  if (value === '') {
+    return {
+      type: REMOVE_ANSWER,
+      payload: id,
+    };
+  } else {
+    return {
+      type: SET_ANSWER,
+      payload: {
+        id: id,
+        value: value,
+      },
+    };
+  }
 };

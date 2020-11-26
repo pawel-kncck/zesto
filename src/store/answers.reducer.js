@@ -13,6 +13,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         [action.payload.id]: action.payload.value,
       };
+    case actionTypes.REMOVE_ANSWER:
+      const { [action.payload]: value, ...remainingKeys } = state;
+      return {
+        ...remainingKeys,
+      };
     default:
       return state;
   }

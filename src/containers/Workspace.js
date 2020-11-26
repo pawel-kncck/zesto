@@ -54,7 +54,6 @@ function Workspace({ loadState, ...props }) {
   return (
     <>
       <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId} />
-      <div>{isDatabaseSyncWithState ? 'TRUE' : 'FALSE'}</div>
       {loaded ? (
         <Paper elevation={3} className={classes.main}>
           {props.editMode ? <EditingSpace /> : <StandardView />}
