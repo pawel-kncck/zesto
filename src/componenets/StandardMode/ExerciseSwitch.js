@@ -1,6 +1,6 @@
 import React from 'react';
 import GapFill from './GapFill';
-import Text from './Text';
+import Text from '../../containers/StandardMode/Text';
 import Choice from '../../containers/StandardMode/Choice';
 import PropTypes from 'prop-types';
 

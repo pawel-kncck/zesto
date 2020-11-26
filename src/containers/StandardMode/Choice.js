@@ -42,7 +42,7 @@ const Choice = ({ exIndex, exercise, answers, setAnswer }) => {
           return (
             <FormControlLabel
               key={index}
-              value={option.label}
+              value={option.id}
               control={<Radio size="small" />}
               label={option.label}
             />
