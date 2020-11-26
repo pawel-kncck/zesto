@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
         background: theme.palette.common.white,
         borderRadius: '10px',
         marginTop: '10px',
+        transition: 'background 0.2s'
     },
     hover: {
         background: theme.palette.primary.light,

@@ -9,62 +9,67 @@ import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
 import { objectToJson } from '../utils/converters';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   main: {
-      width: '795px',
-      minHeight: '500px',
-      margin: 'auto',
-      marginTop: '30px',
-      padding: '30px',
+    width: '795px',
+    minHeight: '500px',
+    margin: 'auto',
+    marginTop: '30px',
+    padding: '30px',
   },
-}))
+}));
 
 function Workspace({ loadState, ...props }) {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
   const [lastLoadContent, setLastLoadContent] = useState(null);
   const quizId = props.match.params.id || null;
-  const isDatabaseSyncWithState = (lastLoadContent === objectToJson(props.quizCurrentState));
+  const isDatabaseSyncWithState =
+    lastLoadContent === objectToJson(props.quizCurrentState);
 
   useEffect(() => {
-    const unsubscribe = firebase.firestore().collection("quizzes").doc(quizId)
-      .onSnapshot(doc => {
-          loadState(doc.data().body);
-          setLastLoadContent(doc.data().body);
-          setLoaded(true);
+    const unsubscribe = firebase
+      .firestore()
+      .collection('quizzes')
+      .doc(quizId)
+      .onSnapshot((doc) => {
+        loadState(doc.data().body);
+        setLastLoadContent(doc.data().body);
+        setLoaded(true);
       });
-      return () => {
-          unsubscribe();
-      }
-  },[loadState, quizId])
+    return () => {
+      unsubscribe();
+    };
+  }, [loadState, quizId]);
 
-  console.log(lastLoadContent);
-  
   return (
     <>
-        <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId}/>
-        <div>{isDatabaseSyncWithState ? "TRUE" : "FALSE"}</div>
-        {loaded
-          ? <Paper elevation={3} className={classes.main}>
-              { props.editMode ? <EditingSpace /> : <StandardView /> }
-            </Paper>
-          : <LoadingScreen open={true} />
-        }
+      <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId} />
+      <div>{isDatabaseSyncWithState ? 'TRUE' : 'FALSE'}</div>
+      {loaded ? (
+        <Paper elevation={3} className={classes.main}>
+          {props.editMode ? <EditingSpace /> : <StandardView />}
+        </Paper>
+      ) : (
+        <LoadingScreen open={true} />
+      )}
     </>
-  )
+  );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     editMode: state.editMode.active,
     quizCurrentState: state.quiz,
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    loadState: (json) => {dispatch(loadState(json))},
-  }
-}
+    loadState: (json) => {
+      dispatch(loadState(json));
+    },
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(Workspace);
+export default connect(mapStateToProps, mapDispatchToProps)(Workspace);
