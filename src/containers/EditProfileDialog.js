@@ -13,6 +13,7 @@ import firebase, { storage } from '../firebase';
 import { makeCustomId } from '../utils/generators';
 // import * as dbFunctions from '../.Database/BackendFunctions';
 import { AuthContext } from './Authentication/contex';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
   root: {
@@ -50,6 +51,7 @@ const useStyles = makeStyles({
 const EditProfileDialog = ({ open, onClose }) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [displayName, setDisplayName] = useState('');
   const [profilePicUrl, setProfilePicUrl] = useState('');
@@ -74,10 +76,10 @@ const EditProfileDialog = ({ open, onClose }) => {
         photoURL: profilePicUrl,
       })
       .then((res) => {
-        console.log(res);
+        enqueueSnackbar('User profile updated!', { variant: 'success' });
         onClose();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => enqueueSnackbar(err.message, { variant: 'error' }));
   };
 
   const handleClick = () => {
@@ -96,9 +98,7 @@ const EditProfileDialog = ({ open, onClose }) => {
       .then((url) => {
         setProfilePicUrl(url);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => enqueueSnackbar(err.message, { variant: 'error' }));
   };
 
   return (

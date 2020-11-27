@@ -24,37 +24,38 @@ const theme = createMuiTheme({
     },
     common: {
       offWhite: '#fafafa',
-    }
+    },
   },
   shape: {
     borderRadius: '2px',
   },
   indent: {
-    secondIndent: '60px'
-  }
+    secondIndent: '60px',
+  },
 });
 
 const composeEnhancers =
-  typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose;
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        trace: true,
+        traceLimit: 25,
+      })
+    : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(ReduxThunk),
+  applyMiddleware(ReduxThunk)
   // other store enhancers if any
 );
 
-const  store  =  createStore(rootReducer, enhancer);
+const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   // <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ThemeProvider>,
   // </React.StrictMode>,
   document.getElementById('root')
 );

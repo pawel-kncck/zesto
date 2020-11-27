@@ -85,6 +85,7 @@ const FileListItem = ({
           fileId={id}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
+          fileName={name}
         />
       ) : null}
     </div>

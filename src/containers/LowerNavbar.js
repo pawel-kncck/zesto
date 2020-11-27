@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
 import { updateQuizById } from '../database/functions';
 import { AuthContext } from '../containers/Authentication/contex';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,17 @@ const LowerNavbar = (props) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const isOwner = props.owners ? props.owners.includes(user.uid) : false;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleSaveChanges = () => {
+    updateQuizById(props.quizId, props.quizBodyObject, props.quizAnswersObject)
+      .then((res) => {
+        enqueueSnackbar(res, { variant: 'success' });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={classes.root}>
@@ -68,13 +80,7 @@ const LowerNavbar = (props) => {
           variant="contained"
           startIcon={<SaveIcon />}
           disabled={props.upToDate}
-          onClick={() =>
-            updateQuizById(
-              props.quizId,
-              props.quizBodyObject,
-              props.quizAnswersObject
-            )
-          }
+          onClick={handleSaveChanges}
         >
           Save
         </Button>

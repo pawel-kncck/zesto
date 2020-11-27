@@ -53,11 +53,9 @@ export const updateQuizById = (quizId, quizBodyObject, quizAnswersObject) => {
       body: objectToJson(quizBodyObject),
       answers: objectToJson(quizAnswersObject),
     })
-    .then((res) => {
-      return res;
-    })
+    .then(() => `Changes saved successfully!`)
     .catch((err) => {
-      return err;
+      throw err;
     });
 };
 

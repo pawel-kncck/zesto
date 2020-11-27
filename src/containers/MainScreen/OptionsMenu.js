@@ -11,10 +11,20 @@ import {
 import { deleteQuizById, duplicateQuizById } from '../../database/functions';
 import WarningIcon from '@material-ui/icons/Warning';
 import { AuthContext } from '../Authentication/contex';
+import { useSnackbar } from 'notistack';
+import DeleteConfirmation from './DeleteConfirmation';
 
-const OptionsMenu = ({ fileId, anchorEl, onClose }) => {
+const OptionsMenu = ({ fileId, anchorEl, onClose, fileName }) => {
   const [confDialogOpen, setConfDialogOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleDuplicate = () => {
+    duplicateQuizById(fileId, user.uid)
+      .then(() => enqueueSnackbar('File duplicated', { variant: 'success' }))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <Menu
@@ -26,35 +36,15 @@ const OptionsMenu = ({ fileId, anchorEl, onClose }) => {
       >
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
         {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
-        <MenuItem onClick={() => duplicateQuizById(fileId, user.uid)}>
-          Duplicate
-        </MenuItem>
+        <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
         {/* <MenuItem onClick={onClose}>Move</MenuItem> */}
       </Menu>
-      <Dialog open={confDialogOpen}>
-        <DialogTitle>Delete confirmation</DialogTitle>
-        <DialogContent>
-          This file will be permanently deleted. Are you sure you want to
-          proceed?
-        </DialogContent>
-        <DialogActions>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => setConfDialogOpen(false)}
-          >
-            No, go back
-          </Button>
-          <Button
-            color="default"
-            variant="outlined"
-            startIcon={<WarningIcon />}
-            onClick={() => deleteQuizById(fileId)}
-          >
-            Yes, delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteConfirmation
+        open={confDialogOpen}
+        onClose={() => setConfDialogOpen(false)}
+        fileId={fileId}
+        fileName={fileName}
+      />
     </>
   );
 };

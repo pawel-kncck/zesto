@@ -1,10 +1,17 @@
-import { IconButton, makeStyles, Tooltip, Typography } from '@material-ui/core';
+import {
+  Button,
+  IconButton,
+  makeStyles,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from './Authentication/contex';
 import AppsIcon from '@material-ui/icons/Apps';
 import { useHistory } from 'react-router';
 import Avatar from '../componenets/Avatar';
 import UserMenu from './UserMenu';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[2],
     background: theme.palette.primary.main,
     paddingRight: '10px',
+    color: theme.palette.common.offWhite,
   },
   brand: {
     flexGrow: 1,
-    color: theme.palette.common.offWhite,
   },
   homeIcon: {
     color: theme.palette.common.offWhite,
@@ -29,6 +36,7 @@ const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
   const { user } = useContext(AuthContext);
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleUserMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

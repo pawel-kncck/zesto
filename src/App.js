@@ -2,27 +2,27 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import NavBar from './containers/NavBar';
 import LoginPage from './containers/Authentication/LoginPage';
-// import SignUpPage from './containers/Authentication/SignUpPage';
 import ProtectedRoute from './hoc/ProtectedRoute';
 import Workspace from './containers/Workspace';
 import Home from './containers/MainScreen/FileList';
 import { AuthProvider } from './containers/Authentication/contex';
+import { SnackbarProvider } from 'notistack';
 
-function App() {
+const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <NavBar />
-        <Switch>
-          <ProtectedRoute path="/" exact component={Home} />
-          <ProtectedRoute path="/home" exact component={Home} />
-          <Route path="/login" component={LoginPage} />
-          {/* <Route path="/signup" component={SignUpPage} /> */}
-          <ProtectedRoute path="/q/:id" component={Workspace} />
-        </Switch>
+        <SnackbarProvider maxSnack={3}>
+          <NavBar />
+          <Switch>
+            <ProtectedRoute path="/" exact component={Home} />
+            <Route path="/login" component={LoginPage} />
+            <ProtectedRoute path="/q/:id" component={Workspace} />
+          </Switch>
+        </SnackbarProvider>
       </BrowserRouter>
     </AuthProvider>
   );
-}
+};
 
 export default App;

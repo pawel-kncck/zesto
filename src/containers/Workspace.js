@@ -52,10 +52,6 @@ function Workspace({ loadState, ...props }) {
     };
   }, [loadState, quizId]);
 
-  useEffect(() => {
-    props.loadStandardView();
-  }, [props]);
-
   return (
     <>
       <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId} />
@@ -84,9 +80,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadQuizState(body));
       dispatch(loadAnswersState(answers));
       dispatch(loadMetadataState(metadata));
-    },
-    loadStandardView: () => {
-      dispatch(setEditMode(false));
     },
   };
 };
