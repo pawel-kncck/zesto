@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import { Fab, makeStyles } from '@material-ui/core';
+import { Fab, makeStyles, Tooltip } from '@material-ui/core';
 import LoadingScreen from '../../componenets/LoadingScreen';
 import { AuthContext } from '../../containers/Authentication/contex';
 import { createNewQuiz } from '../../database/functions';
@@ -117,9 +117,11 @@ const FileList = () => {
           );
         })}
         <div className={classes.fab}>
-          <Fab color="primary" aria-label="add" onClick={handleNewFile}>
-            <AddIcon />
-          </Fab>
+          <Tooltip title="Add new quiz" placement="left" arrow>
+            <Fab color="primary" aria-label="add" onClick={handleNewFile}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
         </div>
         <LoadingScreen open={loading} onClose={() => setLoading(false)} />
       </div>

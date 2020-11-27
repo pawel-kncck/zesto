@@ -1,8 +1,7 @@
 import { IconButton, makeStyles, Tooltip, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from './Authentication/contex';
-import AppsIcon from '@material-ui/icons/Apps';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import Avatar from '../componenets/Avatar';
 import UserMenu from './UserMenu';
 
@@ -18,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
   brand: {
     flexGrow: 1,
+    textDecoration: 'none',
+    color: 'inherit',
+    marginLeft: '20px',
+    fontSize: '18px',
   },
   homeIcon: {
     color: theme.palette.common.offWhite,
@@ -28,7 +31,6 @@ const NavBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
   const { user } = useContext(AuthContext);
-  const history = useHistory();
 
   const handleUserMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,15 +41,9 @@ const NavBar = () => {
 
   return (
     <div className={classes.root}>
-      <IconButton
-        className={classes.homeIcon}
-        onClick={() => history.push('/')}
-      >
-        <AppsIcon />
-      </IconButton>
-      <Typography variant="h6" className={classes.brand}>
-        Zesto
-      </Typography>
+      <Link to="/" className={classes.brand}>
+        <Typography variant="inherit">Zesto</Typography>
+      </Link>
       {user ? (
         <Tooltip title={user.displayName} placement="left">
           <IconButton onClick={handleUserMenuOpen}>
