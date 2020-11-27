@@ -3,7 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { Fab, makeStyles } from '@material-ui/core';
 import LoadingScreen from '../../componenets/LoadingScreen';
 import { AuthContext } from '../../containers/Authentication/contex';
-import { createNewQuiz, addFolderToFileTree } from '../../database/functions';
+import { createNewQuiz } from '../../database/functions';
 import { useHistory } from 'react-router';
 import firebase from '../../firebase';
 import { jsonToObject } from '../../utils/converters';
