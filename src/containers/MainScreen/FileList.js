@@ -9,6 +9,8 @@ import firebase from '../../firebase';
 import { jsonToObject } from '../../utils/converters';
 import FileListItem from '../../componenets/FileListItem';
 import FilePath from './FilePath';
+import { setEditMode } from '../../store/editMode.actions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FileList = () => {
+const FileList = (props) => {
   const classes = useStyles();
   const [quizzes, setQuizzes] = useState([]);
   const [fileTree, setFileTree] = useState([]);
@@ -73,6 +75,7 @@ const FileList = () => {
       .then((res) => {
         const targetUrl = 'q/' + res.id;
         history.push(targetUrl);
+        props.setEditMode(true);
       })
       .catch((err) => {
         console.error(err);
@@ -83,6 +86,7 @@ const FileList = () => {
     const targetUrl = 'q/' + id;
     if (type === 'quiz') {
       history.push(targetUrl);
+      props.setEditMode(false);
     }
   };
 
@@ -129,4 +133,12 @@ const FileList = () => {
   );
 };
 
-export default FileList;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setEditMode: (value) => {
+      dispatch(setEditMode(value));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(FileList);
