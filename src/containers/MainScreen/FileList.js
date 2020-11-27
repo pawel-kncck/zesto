@@ -68,7 +68,7 @@ const FileList = (props) => {
     return () => {
       unsubscribe();
     };
-  });
+  }, [user.uid]);
 
   const handleNewFile = () => {
     createNewQuiz(user.uid)
