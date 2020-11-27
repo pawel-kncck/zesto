@@ -1,10 +1,10 @@
-import { Button, IconButton, makeStyles, Typography } from '@material-ui/core';
-import React, { useContext } from 'react';
+import { IconButton, makeStyles, Typography } from '@material-ui/core';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from './Authentication/contex';
 import AppsIcon from '@material-ui/icons/Apps';
-import app from '../firebase';
 import { useHistory } from 'react-router';
 import Avatar from '../componenets/Avatar';
+import UserMenu from './UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,8 +26,16 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(false);
   const { user } = useContext(AuthContext);
   const history = useHistory();
+
+  const handleUserMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleUserMenuClose = () => {
+    setAnchorEl(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -40,12 +48,14 @@ const NavBar = () => {
       <Typography variant="h6" className={classes.brand}>
         Zesto
       </Typography>
-      {user ? (
-        <Avatar src={user.photoURL} displayName={user.displayName}></Avatar>
-      ) : null}
-      {user ? (
-        <Button onClick={() => app.auth().signOut()}>Logout</Button>
-      ) : null}
+      <IconButton onClick={handleUserMenuOpen}>
+        {user ? (
+          <Avatar src={user.photoURL} displayName={user.displayName}></Avatar>
+        ) : null}
+      </IconButton>
+      {/* {Boolean(anchorEl) ? ( */}
+      <UserMenu anchorEl={anchorEl} onClose={handleUserMenuClose} />
+      {/* ) : null} */}
     </div>
   );
 };
