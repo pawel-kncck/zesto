@@ -75,3 +75,42 @@ export const getQuizById = (quizId) => {
       return err;
     });
 };
+
+export const duplicateQuizById = (quizId, userId) => {
+  const quizzesRef = firebase.firestore().collection('quizzes');
+  const quizRef = quizzesRef.doc(quizId);
+
+  return quizRef
+    .get()
+    .then((doc) => {
+      const docData = doc.data();
+      const createdDate = new Date();
+
+      const body = docData.body;
+
+      function replacer(match, p1, p2, p3, offset, string) {
+        // p1 is nondigits, p2 digits, and p3 non-alphanumerics
+        console.log(match);
+        return match + ' COPY';
+      }
+      // let newString = 'abc12345#$*%'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer);
+
+      const newBody = body.replace(/(?<="title":")(.*?)(?=")/, replacer);
+
+      const newDocData = {
+        author: docData.author,
+        owners: [userId],
+        users: [userId],
+        createdAt: createdDate,
+        lastUpdatedAt: createdDate,
+        body: newBody,
+      };
+      return quizzesRef
+        .add(newDocData)
+        .then((res) => res)
+        .catch((err) => err);
+    })
+    .catch((err) => {
+      return err;
+    });
+};

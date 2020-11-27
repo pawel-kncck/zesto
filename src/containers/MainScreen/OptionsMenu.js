@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,11 +8,13 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import { deleteQuizById } from '../../database/functions';
+import { deleteQuizById, duplicateQuizById } from '../../database/functions';
 import WarningIcon from '@material-ui/icons/Warning';
+import { AuthContext } from '../Authentication/contex';
 
 const OptionsMenu = ({ fileId, anchorEl, onClose }) => {
   const [confDialogOpen, setConfDialogOpen] = useState(false);
+  const { user } = useContext(AuthContext);
   return (
     <>
       <Menu
@@ -24,7 +26,9 @@ const OptionsMenu = ({ fileId, anchorEl, onClose }) => {
       >
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
         {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
-        {/* <MenuItem onClick={onClose}>Duplicate</MenuItem> */}
+        <MenuItem onClick={() => duplicateQuizById(fileId, user.uid)}>
+          Duplicate
+        </MenuItem>
         {/* <MenuItem onClick={onClose}>Move</MenuItem> */}
       </Menu>
       <Dialog open={confDialogOpen}>
