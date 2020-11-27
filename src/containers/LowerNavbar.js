@@ -9,9 +9,11 @@ import React, { useContext } from 'react';
 import SaveIcon from '@material-ui/icons/Save';
 import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
-import { updateQuizById } from '../database/functions';
+import { updateQuizById, deleteQuizById } from '../database/functions';
 import { AuthContext } from '../containers/Authentication/contex';
 import { useSnackbar } from 'notistack';
+import UndoIcon from '@material-ui/icons/Undo';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,18 +22,33 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[1],
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
   },
   buttonContainer: {
     marginLeft: '10px',
     marginRight: '10px',
+    // justifySelf: 'left',
+  },
+  rightButtonContainer: {
+    flexGrow: 1,
+    marginLeft: '20px',
+    // justifySelf: 'right',
+  },
+  returnButton: {
+    backgroundColor: '#d00',
+    color: theme.palette.common.offWhite,
   },
 }));
 
 const LowerNavbar = (props) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
+  const history = useHistory();
   const isOwner = props.owners ? props.owners.includes(user.uid) : false;
+  const isNew = props.metadata.createdAt
+    ? JSON.stringify(props.metadata.createdAt) ===
+      JSON.stringify(props.metadata.lastUpdatedAt)
+    : false;
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveChanges = () => {
@@ -44,8 +61,26 @@ const LowerNavbar = (props) => {
       });
   };
 
+  const handleGoBackReturn = () => {
+    deleteQuizById(props.quizId);
+    history.push('/');
+  };
+
   return (
     <div className={classes.root}>
+      <div className={classes.rightButtonContainer}>
+        {isNew ? (
+          <Button
+            startIcon={<UndoIcon />}
+            variant="contained"
+            size="small"
+            className={classes.returnButton}
+            onClick={handleGoBackReturn}
+          >
+            Return
+          </Button>
+        ) : null}
+      </div>
       {isOwner ? (
         <>
           <FormControlLabel
@@ -95,6 +130,7 @@ const mapStateToProps = (state) => {
     quizBodyObject: state.quiz,
     quizAnswersObject: state.answers,
     owners: state.metadata.owners,
+    metadata: state.metadata,
   };
 };
 
