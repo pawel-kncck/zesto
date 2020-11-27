@@ -1,60 +1,35 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, TextField, FormControl, Button, Paper } from '@material-ui/core';
-import { useHistory } from 'react-router';
+import React from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from '../../firebase';
+import styled from 'styled-components';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      justifyContent: 'center',
-      padding: '30px'
-    },
-    paper: {
-        padding: '20px',
-        width: theme.spacing(36),
-    },
-    form: {
-      width: theme.spacing(26),
-      '& > *': {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-      },
-    }
-  }));
+const uiConfig = {
+  signInFlow: 'popup',
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  ],
+};
 
-const LoginCard = () => {
-  const classes = useStyles();
-  const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const AuthContainer = styled.div`
+  padding: 50px 20px;
+  margin: 30px auto 0;
+  width: 300px;
+  background: #fafafa;
+`;
 
-  const isValid = (email !== '') && (password.length > 7);
-
-  const handleLogin = () => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(res => {
-            console.log(res);
-            history.push('/');
-        })
-        .catch(err => {
-            console.error(err);
-        });
+class SignInScreen extends React.Component {
+  render() {
+    return (
+      <AuthContainer>
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
+      </AuthContainer>
+    );
   }
-
-  return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-          <FormControl className={classes.form}>
-            <Typography variant="h5">Login</Typography>
-            <TextField fullWidth type="email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <TextField fullWidth type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <Typography variant='body2' align='right'>Forget password?</Typography>
-            <Button variant="outlined" disabled={!isValid} onClick={handleLogin}>Login</Button>
-          </FormControl>
-      </Paper>
-    </div>
-  );
 }
 
-export default LoginCard;
+export default SignInScreen;
