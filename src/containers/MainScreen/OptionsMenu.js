@@ -1,15 +1,6 @@
 import React, { useContext, useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Menu,
-  MenuItem,
-} from '@material-ui/core';
-import { deleteQuizById, duplicateQuizById } from '../../database/functions';
-import WarningIcon from '@material-ui/icons/Warning';
+import { Menu, MenuItem } from '@material-ui/core';
+import { duplicateQuizById } from '../../database/functions';
 import { AuthContext } from '../Authentication/contex';
 import { useSnackbar } from 'notistack';
 import DeleteConfirmation from './DeleteConfirmation';

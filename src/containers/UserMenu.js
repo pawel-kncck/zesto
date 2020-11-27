@@ -33,10 +33,12 @@ const UserMenu = ({ anchorEl, onClose }) => {
         <MenuItem onClick={handleProfileDialogOpen}>Profile</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
-      <EditProfileDialog
-        open={profileDialogOpen}
-        onClose={handleProfileDialogClose}
-      />
+      {profileDialogOpen ? (
+        <EditProfileDialog
+          open={profileDialogOpen}
+          onClose={handleProfileDialogClose}
+        />
+      ) : null}
     </>
   );
 };

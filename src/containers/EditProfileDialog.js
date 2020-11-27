@@ -37,7 +37,9 @@ const useStyles = makeStyles({
   imageButtonContainer: {
     width: '100%',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: '20px',
   },
   imageinput: {
@@ -56,6 +58,10 @@ const EditProfileDialog = ({ open, onClose }) => {
   const [displayName, setDisplayName] = useState('');
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const [email, setEmail] = useState('');
+  const isPhotoSameAsGoogle = user
+    ? profilePicUrl === user.providerData[0].photoURL ||
+      user.providerData[0].providerId !== 'google.com'
+    : true;
   const noImageUrl =
     'https://firebasestorage.googleapis.com/v0/b/zestoo.appspot.com/o/no-image-available.png?alt=media&token=b4dbfd40-6fc9-48a1-9131-53c2d5f2fc7c';
 
@@ -65,6 +71,11 @@ const EditProfileDialog = ({ open, onClose }) => {
       setProfilePicUrl(user.photoURL);
       setEmail(user.email);
     }
+    return () => {
+      setDisplayName('');
+      setProfilePicUrl('');
+      setEmail('');
+    };
   }, [user]);
 
   const handleSaveChanges = () => {
@@ -119,9 +130,22 @@ const EditProfileDialog = ({ open, onClose }) => {
             className={classes.imageinput}
             onChange={(e) => firebaseImageUpload(e.target.files[0])}
           />
-          <Button variant="outlined" size="small" onClick={handleClick}>
-            Change image
-          </Button>
+          <div>
+            <Button variant="outlined" size="small" onClick={handleClick}>
+              Change image
+            </Button>
+          </div>
+          <div>
+            {isPhotoSameAsGoogle ? null : (
+              <Button
+                size="small"
+                variant="text"
+                onClick={() => setProfilePicUrl(user.providerData[0].photoURL)}
+              >
+                Use Google photo
+              </Button>
+            )}
+          </div>
         </div>
         <FormControl className={classes.formControl}>
           <TextField
