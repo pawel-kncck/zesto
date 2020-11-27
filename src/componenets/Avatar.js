@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: theme.spacing(4),
     height: theme.spacing(4),
+    fontSize: '14px',
   },
 }));
 

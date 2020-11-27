@@ -1,4 +1,4 @@
-import { IconButton, makeStyles, Typography } from '@material-ui/core';
+import { IconButton, makeStyles, Tooltip, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from './Authentication/contex';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -48,14 +48,14 @@ const NavBar = () => {
       <Typography variant="h6" className={classes.brand}>
         Zesto
       </Typography>
-      <IconButton onClick={handleUserMenuOpen}>
-        {user ? (
-          <Avatar src={user.photoURL} displayName={user.displayName}></Avatar>
-        ) : null}
-      </IconButton>
-      {/* {Boolean(anchorEl) ? ( */}
+      {user ? (
+        <Tooltip title={user.displayName} placement="left">
+          <IconButton onClick={handleUserMenuOpen}>
+            <Avatar src={user.photoURL} displayName={user.displayName}></Avatar>
+          </IconButton>
+        </Tooltip>
+      ) : null}
       <UserMenu anchorEl={anchorEl} onClose={handleUserMenuClose} />
-      {/* ) : null} */}
     </div>
   );
 };
