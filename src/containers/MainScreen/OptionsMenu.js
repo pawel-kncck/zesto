@@ -5,21 +5,25 @@ import { AuthContext } from '../Authentication/contex';
 import { useSnackbar } from 'notistack';
 import DeleteConfirmation from './DeleteConfirmation';
 
-const OptionsMenu = ({ fileId, anchorEl, onClose, fileName }) => {
+const OptionsMenu = ({ id, anchorEl, type, file, onClose, name }) => {
   const [confDialogOpen, setConfDialogOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDuplicate = () => {
-    duplicateQuizById(fileId, user.uid)
-      .then(() => enqueueSnackbar('File duplicated', { variant: 'success' }))
-      .catch((err) => console.log(err));
+    if (type === 'quiz') {
+      duplicateQuizById(id, user.uid)
+        .then(() => enqueueSnackbar('File duplicated', { variant: 'success' }))
+        .catch((err) => console.log(err));
+    } else {
+      onClose();
+    }
   };
 
   return (
     <>
       <Menu
-        id={fileId + '-options-id'}
+        id={id + '-options-id'}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         keepMounted
@@ -33,8 +37,11 @@ const OptionsMenu = ({ fileId, anchorEl, onClose, fileName }) => {
       <DeleteConfirmation
         open={confDialogOpen}
         onClose={() => setConfDialogOpen(false)}
-        fileId={fileId}
-        fileName={fileName}
+        id={id}
+        file={file}
+        type={type}
+        userId={user.uid}
+        name={name}
       />
     </>
   );

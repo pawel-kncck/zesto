@@ -1,4 +1,5 @@
 import firebase from '../firebase';
+import { makeCustomId } from '../utils/generators';
 import { initialQuizWithGapFill } from './initialContent';
 import { objectToJson } from '../utils/converters';
 
@@ -86,12 +87,9 @@ export const duplicateQuizById = (quizId, userId) => {
 
       const body = docData.body;
 
-      function replacer(match, p1, p2, p3, offset, string) {
-        // p1 is nondigits, p2 digits, and p3 non-alphanumerics
-        console.log(match);
+      const replacer = (match) => {
         return match + ' COPY';
-      }
-      // let newString = 'abc12345#$*%'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer);
+      };
 
       const newBody = body.replace(/(?<="title":")(.*?)(?=")/, replacer);
 
@@ -110,5 +108,59 @@ export const duplicateQuizById = (quizId, userId) => {
     })
     .catch((err) => {
       return err;
+    });
+};
+
+export const addFolderToFileTree = (userId, label) => {
+  const userDocRef = firebase.firestore().collection('users').doc(userId);
+  const createdDate = new Date();
+
+  const newFolder = {
+    id: makeCustomId(9),
+    owners: [userId],
+    users: [userId],
+    type: 'folder',
+    label: label,
+    createdAt: createdDate,
+  };
+
+  return userDocRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userDocRef
+          .update({
+            fileTree: firebase.firestore.FieldValue.arrayUnion(newFolder),
+          })
+          .then((res) => res)
+          .catch((err) => {
+            throw err;
+          });
+      } else {
+        userDocRef
+          .set({
+            fileTree: firebase.firestore.FieldValue.arrayUnion(newFolder),
+          })
+          .then((res) => res)
+          .catch((err) => {
+            throw err;
+          });
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+export const deleteFolderFromFileTree = (userId, folder) => {
+  const userDocRef = firebase.firestore().collection('users').doc(userId);
+
+  return userDocRef
+    .update({
+      fileTree: firebase.firestore.FieldValue.arrayRemove(folder),
+    })
+    .then((res) => res)
+    .catch((err) => {
+      throw err;
     });
 };

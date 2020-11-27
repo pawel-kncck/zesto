@@ -37,6 +37,7 @@ const FileListItem = ({
   id,
   name,
   type,
+  file,
   isOwner,
   onClick /*lastUpdated, ownerId */,
 }) => {
@@ -47,7 +48,7 @@ const FileListItem = ({
 
   const icon = (typeInput) => {
     if (typeInput === 'folder') {
-      return <FolderIcon />;
+      return <FolderIcon color="action" />;
     } else if (typeInput === 'quiz') {
       return <AssignmentIcon />;
     } else {
@@ -82,10 +83,12 @@ const FileListItem = ({
 
       {Boolean(anchorEl) && isOwner ? (
         <OptionsMenu
-          fileId={id}
+          id={id}
+          type={type}
+          file={file}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
-          fileName={name}
+          name={name}
         />
       ) : null}
     </div>
