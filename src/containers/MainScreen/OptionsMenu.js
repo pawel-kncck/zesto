@@ -4,9 +4,11 @@ import { duplicateQuizById } from '../../database/functions';
 import { AuthContext } from '../Authentication/contex';
 import { useSnackbar } from 'notistack';
 import DeleteConfirmation from './DeleteConfirmation';
+import MoveFileDialog from './MoveFileDialog';
 
-const OptionsMenu = ({ id, anchorEl, type, file, onClose, name }) => {
+const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
   const [confDialogOpen, setConfDialogOpen] = useState(false);
+  const [moveDialogOpen, setMoveDialogOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,7 +34,7 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name }) => {
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
         {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
         <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
-        {/* <MenuItem onClick={onClose}>Move</MenuItem> */}
+        <MenuItem onClick={() => setMoveDialogOpen(true)}>Move</MenuItem>
       </Menu>
       <DeleteConfirmation
         open={confDialogOpen}
@@ -43,6 +45,13 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name }) => {
         userId={user.uid}
         name={name}
       />
+      {moveDialogOpen ? (
+        <MoveFileDialog
+          type={type}
+          tree={tree}
+          onClose={() => setMoveDialogOpen(false)}
+        />
+      ) : null}
     </>
   );
 };

@@ -145,6 +145,7 @@ const MainScreen = (props) => {
       <FileList
         userId={user.uid}
         files={files.filter((file) => file.parentFolderId === currentLocation)}
+        tree={files}
         onOpen={handleOpen}
       />
       <Fab onClick={handleNewFile} />

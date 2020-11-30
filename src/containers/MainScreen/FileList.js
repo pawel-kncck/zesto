@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-const FileList = ({ userId, files, onOpen }) => {
+const FileList = ({ userId, files, onOpen, tree }) => {
   const classes = useStyles();
 
   return (
@@ -19,6 +19,7 @@ const FileList = ({ userId, files, onOpen }) => {
         return (
           <FileListItem
             key={file.id}
+            tree={tree}
             id={file.id}
             file={file}
             name={file.name}

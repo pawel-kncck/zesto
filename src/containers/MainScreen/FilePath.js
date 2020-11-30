@@ -66,7 +66,7 @@ const FilePath = ({ currentLocation, tree }) => {
         {path.reverse().map((step, index) => {
           const isLast = index === path.length - 1;
           return (
-            <div key={index}>
+            <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
               <Button
                 variant="text"
                 color="default"

@@ -39,6 +39,7 @@ const FileListItem = ({
   type,
   file,
   isOwner,
+  tree,
   onClick /*lastUpdated, ownerId */,
 }) => {
   const classes = useStyles();
@@ -85,6 +86,7 @@ const FileListItem = ({
         <OptionsMenu
           id={id}
           type={type}
+          tree={tree}
           file={file}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
