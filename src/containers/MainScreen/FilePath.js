@@ -1,7 +1,9 @@
-import { Button, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Button, Icon, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FileActionsMenu from './FilesActionsMenu';
+import ArrowForward from '@material-ui/icons/ArrowForwardIos';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,32 +21,77 @@ const useStyles = makeStyles((theme) => ({
   label: {
     textTransform: 'none',
   },
+  signBetween: {
+    margin: '0 10px',
+    color: '#ccc',
+  },
 }));
 
-const FilePath = () => {
+const FilePath = ({ currentLocation, tree }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
+  const history = useHistory();
+
+  const generatePath = (currentFolderId, folderTree, outputArray = []) => {
+    if (currentFolderId === 'root') {
+      outputArray.push({ id: 'root', label: 'My Files' });
+    } else {
+      for (let i = 0; i < folderTree.length; i++) {
+        if (folderTree[i].id === currentFolderId) {
+          const id = folderTree[i].id;
+          const name = folderTree[i].name;
+          const parentFolderId = folderTree[i].parentFolderId;
+
+          outputArray.push({ id: id, label: name });
+          generatePath(parentFolderId, tree, outputArray);
+        }
+      }
+    }
+    return outputArray;
+  };
+
+  const path = generatePath(currentLocation, tree);
 
   const handleActionsOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleGoToFolder = (folderId) => {
+    history.push('/f/' + folderId);
+  };
+
   return (
     <>
       <div className={classes.root}>
-        <Button
-          variant="text"
-          color="default"
-          classes={{ label: classes.label, root: classes.buttonRoot }}
-          endIcon={<ArrowDropDownIcon />}
-          onClick={handleActionsOpen}
-        >
-          My Files
-        </Button>
+        {path.reverse().map((step, index) => {
+          const isLast = index === path.length - 1;
+          return (
+            <>
+              <Button
+                variant="text"
+                color="default"
+                classes={{ label: classes.label, root: classes.buttonRoot }}
+                endIcon={isLast ? <ArrowDropDownIcon /> : null}
+                onClick={
+                  isLast ? handleActionsOpen : () => handleGoToFolder(step.id)
+                }
+              >
+                {step.label}
+              </Button>
+              {!isLast ? (
+                <ArrowForward
+                  fontSize="small"
+                  className={classes.signBetween}
+                />
+              ) : null}
+            </>
+          );
+        })}
       </div>
       {Boolean(anchorEl) ? (
         <FileActionsMenu
           anchorEl={anchorEl}
+          currentLocation={currentLocation}
           onClose={() => setAnchorEl(false)}
         />
       ) : null}

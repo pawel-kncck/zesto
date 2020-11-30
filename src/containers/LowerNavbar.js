@@ -77,7 +77,7 @@ const LowerNavbar = (props) => {
             className={classes.returnButton}
             onClick={handleGoBackReturn}
           >
-            Return
+            Cancel
           </Button>
         ) : null}
       </div>

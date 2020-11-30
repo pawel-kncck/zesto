@@ -111,7 +111,7 @@ export const duplicateQuizById = (quizId, userId) => {
     });
 };
 
-export const addFolderToFileTree = (userId, label) => {
+export const addFolderToFileTree = (userId, label, parentId = 'root') => {
   const userDocRef = firebase.firestore().collection('users').doc(userId);
   const createdDate = new Date();
 
@@ -119,6 +119,7 @@ export const addFolderToFileTree = (userId, label) => {
     id: makeCustomId(9),
     owners: [userId],
     users: [userId],
+    parentFolderId: parentId,
     type: 'folder',
     label: label,
     createdAt: createdDate,

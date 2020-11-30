@@ -23,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OptionsMenu = ({ folderId = null, anchorEl, onClose }) => {
+const OptionsMenu = ({
+  folderId = null,
+  anchorEl,
+  onClose,
+  currentLocation,
+}) => {
   const [open, setOpen] = useState(false);
   const [label, setLabel] = useState('');
   const classes = useStyles();
@@ -36,7 +41,7 @@ const OptionsMenu = ({ folderId = null, anchorEl, onClose }) => {
   };
 
   const handleSave = () => {
-    addFolderToFileTree(user.uid, label)
+    addFolderToFileTree(user.uid, label, currentLocation)
       .then(() => {
         setOpen(false);
         setLabel('');
