@@ -22,6 +22,15 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
     }
   };
 
+  const handleMoveDialogOpen = () => {
+    setMoveDialogOpen(true);
+  };
+
+  const handleMoveDialogClose = () => {
+    setMoveDialogOpen(false);
+    onClose();
+  };
+
   return (
     <>
       <Menu
@@ -34,7 +43,7 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
         {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
         <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
-        <MenuItem onClick={() => setMoveDialogOpen(true)}>Move</MenuItem>
+        <MenuItem onClick={handleMoveDialogOpen}>Move</MenuItem>
       </Menu>
       <DeleteConfirmation
         open={confDialogOpen}
@@ -47,9 +56,10 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
       />
       {moveDialogOpen ? (
         <MoveFileDialog
-          type={type}
+          fileId={id}
           tree={tree}
-          onClose={() => setMoveDialogOpen(false)}
+          userId={user.uid}
+          onClose={handleMoveDialogClose}
         />
       ) : null}
     </>

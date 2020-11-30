@@ -17,6 +17,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import FolderIcon from '@material-ui/icons/Folder';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
+import { moveFileToFolder } from '../../database/functions';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -31,27 +32,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MoveFileDialog = ({ type, tree, onClose }) => {
-  const itemType = type === 'folder' ? 'folder' : 'file';
-  const [currentFolder, setCurrentFolder] = useState('root');
-  const [currentParent, setCurrentParent] = useState(null);
-  //   const [currentTreeItem, setCurrentTreeItem] = useState(null);
+const MoveFileDialog = ({ fileId, userId, tree, onClose }) => {
+  const [currentTreeItem, setCurrentTreeItem] = useState({
+    id: 'root',
+    label: 'My Files',
+    parentFolderId: null,
+  });
   const classes = useStyles();
 
-  const treeIds = tree.map((treeItem) => treeItem.id);
-  const treeLabels = tree.map((treeItem) => treeItem.name);
-
   const handleClick = (treeItem) => {
-    // setCurrentTreeItem(treeItem);
-    setCurrentFolder(treeItem.id);
-    setCurrentParent(treeItem.parentFolderId);
+    const newTreeItem = {
+      id: treeItem.id,
+      label: treeItem.id === 'root' ? 'My Files' : treeItem.name,
+      parentFolderId: treeItem.id === 'root' ? null : treeItem.parentFolderId,
+    };
+    setCurrentTreeItem(newTreeItem);
   };
 
   const handleGoBack = () => {
-    if (currentParent === 'root') {
-      setCurrentFolder('root');
-      setCurrentParent(null);
+    if (currentTreeItem.parentFolderId === 'root') {
+      setCurrentTreeItem({
+        id: 'root',
+        label: 'My Files',
+        parentFolderId: null,
+      });
+    } else {
+      const [targetItem] = tree.filter(
+        (treeItem) => treeItem.id === currentTreeItem.parentFolderId
+      );
+      setCurrentTreeItem({
+        id: targetItem.id,
+        label: targetItem.name,
+        parentFolderId: targetItem.parentFolderId,
+      });
     }
+  };
+
+  const handleMove = () => {
+    const [item] = tree.filter((treeItem) => treeItem.id === fileId);
+
+    if (item.parentFolderId !== currentTreeItem.id) {
+      moveFileToFolder(userId, item.id, currentTreeItem.id);
+    }
+
+    onClose();
   };
 
   return (
@@ -59,15 +83,17 @@ const MoveFileDialog = ({ type, tree, onClose }) => {
       <DialogTitle>
         <IconButton
           size="small"
-          disabled={!currentParent}
+          disabled={!currentTreeItem.parentFolderId}
           onClick={handleGoBack}
         >
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="body1" display="inline">
-          {currentFolder !== 'root'
-            ? treeLabels[treeIds.indexOf(currentFolder)]
-            : 'My Files'}
+        <Typography
+          variant="body1"
+          display="inline"
+          style={{ marginLeft: '10px' }}
+        >
+          {currentTreeItem.label}
         </Typography>
         <IconButton
           aria-label="close"
@@ -80,9 +106,12 @@ const MoveFileDialog = ({ type, tree, onClose }) => {
       <DialogContent dividers classes={{ root: classes.content }}>
         <List>
           {tree
-            .filter((treeItem) => treeItem.parentFolderId === currentFolder)
-            .map((treeItem) => (
+            .filter(
+              (treeItem) => treeItem.parentFolderId === currentTreeItem.id
+            )
+            .map((treeItem, index) => (
               <ListItem
+                key={index}
                 button
                 onClick={() => handleClick(treeItem)}
                 disabled={treeItem.type !== 'folder'}
@@ -100,7 +129,7 @@ const MoveFileDialog = ({ type, tree, onClose }) => {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="primary" onClick={onClose}>
+        <Button variant="contained" color="primary" onClick={handleMove}>
           Move here
         </Button>
       </DialogActions>

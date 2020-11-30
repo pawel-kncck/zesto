@@ -188,3 +188,24 @@ export const deleteFolderFromFileTree = (userId, folderId) => {
       throw err;
     });
 };
+
+export const moveFileToFolder = (userId, fileId, folderId) => {
+  const userDocRef = firebase.firestore().collection('users').doc(userId);
+
+  return userDocRef.get().then((doc) => {
+    const folderTreeWithoutTheFile = doc
+      .data()
+      .fileTree.filter((treeItem) => treeItem.id !== fileId);
+
+    folderTreeWithoutTheFile.push({ id: fileId, parentFolderId: folderId });
+
+    userDocRef
+      .update({
+        fileTree: folderTreeWithoutTheFile,
+      })
+      .then((res) => res)
+      .catch((err) => {
+        throw err;
+      });
+  });
+};

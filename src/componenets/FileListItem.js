@@ -1,4 +1,4 @@
-import { IconButton, makeStyles } from '@material-ui/core';
+import { IconButton, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import FolderIcon from '@material-ui/icons/Folder';
@@ -76,10 +76,10 @@ const FileListItem = ({
         {icon(type)}
       </div>
       <div className={classes.fileName} onClick={onClick}>
-        {name}
+        <Typography variant="body1">{name}</Typography>
       </div>
       <IconButton onClick={handleMenuClick} disabled={!isOwner}>
-        <MoreVertIcon />
+        <MoreVertIcon fontSize="small" />
       </IconButton>
 
       {Boolean(anchorEl) && isOwner ? (
