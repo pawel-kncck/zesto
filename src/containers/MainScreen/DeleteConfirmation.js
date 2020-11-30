@@ -25,7 +25,7 @@ const OptionsMenu = ({ open, type, userId, file, onClose, id, name }) => {
   };
 
   const handleDeleteFolder = () => {
-    deleteFolderFromFileTree(userId, file)
+    deleteFolderFromFileTree(userId, id)
       .then(() => enqueueSnackbar(`Folder "${name}" was permanently deleted`))
       .catch((err) => enqueueSnackbar(err.message, { variant: 'error' }));
 
@@ -41,7 +41,7 @@ const OptionsMenu = ({ open, type, userId, file, onClose, id, name }) => {
     folder: {
       deleteFunc: handleDeleteFolder,
       confMessage:
-        'This folder will be permanently deleted, but the files inside it will remain untouched. They will be unassigned.',
+        'This folder will be permanently deleted. All files and folders will be moved to a parent folder.',
     },
   };
 

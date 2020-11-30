@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import NavBar from './containers/NavBar';
 import LoginPage from './containers/Authentication/LoginPage';
 import ProtectedRoute from './hoc/ProtectedRoute';
@@ -16,6 +16,7 @@ const App = () => {
           <NavBar />
           <Switch>
             <ProtectedRoute path="/" exact component={Home} />
+            <Redirect from="/f/root" to="/" />
             <ProtectedRoute path="/f/:folderId" exact component={Home} />
             <Route path="/login" component={LoginPage} />
             <ProtectedRoute path="/q/:id" component={Workspace} />

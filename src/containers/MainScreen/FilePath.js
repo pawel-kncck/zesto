@@ -1,5 +1,5 @@
-import { Button, Icon, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { Button, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FileActionsMenu from './FilesActionsMenu';
 import ArrowForward from '@material-ui/icons/ArrowForwardIos';
@@ -66,7 +66,7 @@ const FilePath = ({ currentLocation, tree }) => {
         {path.reverse().map((step, index) => {
           const isLast = index === path.length - 1;
           return (
-            <>
+            <div key={index}>
               <Button
                 variant="text"
                 color="default"
@@ -84,7 +84,7 @@ const FilePath = ({ currentLocation, tree }) => {
                   className={classes.signBetween}
                 />
               ) : null}
-            </>
+            </div>
           );
         })}
       </div>

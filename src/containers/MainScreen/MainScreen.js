@@ -1,11 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import LoadingScreen from '../../componenets/LoadingScreen';
 import { AuthContext } from '../../containers/Authentication/contex';
-import { createNewQuiz, deleteQuizById } from '../../database/functions';
+import { createNewQuiz } from '../../database/functions';
 import { useHistory } from 'react-router';
 import firebase from '../../firebase';
 import { jsonToObject } from '../../utils/converters';
-import FileListItem from '../../componenets/FileListItem';
 import FilePath from './FilePath';
 import { setEditMode } from '../../store/editMode.actions';
 import { connect } from 'react-redux';
@@ -23,9 +21,7 @@ const useStyles = makeStyles({
 
 const MainScreen = (props) => {
   const classes = useStyles();
-  //   const [currentLocation, setCurrentLocation] = useState('root');
   const currentLocation = props.match.params.folderId || 'root';
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { user } = useContext(AuthContext);
   const [files, setFiles] = useState([]);
@@ -152,7 +148,6 @@ const MainScreen = (props) => {
         onOpen={handleOpen}
       />
       <Fab onClick={handleNewFile} />
-      {/* <LoadingScreen open={loading} onClose={() => setLoading(false)} /> */}
     </div>
   );
 };

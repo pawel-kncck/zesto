@@ -153,12 +153,35 @@ export const addFolderToFileTree = (userId, label, parentId = 'root') => {
     });
 };
 
-export const deleteFolderFromFileTree = (userId, folder) => {
+export const deleteFolderFromFileTree = (userId, folderId) => {
   const userDocRef = firebase.firestore().collection('users').doc(userId);
 
   return userDocRef
-    .update({
-      fileTree: firebase.firestore.FieldValue.arrayRemove(folder),
+    .get()
+    .then((doc) => {
+      const folderTree = doc.data().fileTree;
+      const [removedItem] = folderTree.filter(
+        (treeItem) => treeItem.id === folderId
+      );
+      const newFolderTree = folderTree
+        .filter((treeItem) => treeItem.id !== folderId)
+        .map((treeItem) => {
+          if (treeItem.parentFolderId === removedItem.id) {
+            return {
+              ...treeItem,
+              parentFolderId: removedItem.parentFolderId,
+            };
+          } else {
+            return treeItem;
+          }
+        });
+
+      return newFolderTree;
+    })
+    .then((newFolderTree) => {
+      userDocRef.update({
+        fileTree: newFolderTree,
+      });
     })
     .then((res) => res)
     .catch((err) => {
