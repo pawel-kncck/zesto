@@ -193,11 +193,22 @@ export const moveFileToFolder = (userId, fileId, folderId) => {
   const userDocRef = firebase.firestore().collection('users').doc(userId);
 
   return userDocRef.get().then((doc) => {
-    const folderTreeWithoutTheFile = doc
-      .data()
-      .fileTree.filter((treeItem) => treeItem.id !== fileId);
+    const currentFolderTree = doc.data().fileTree;
 
-    folderTreeWithoutTheFile.push({ id: fileId, parentFolderId: folderId });
+    console.log();
+
+    const folderTreeWithoutTheFile = currentFolderTree.filter(
+      (treeItem) => treeItem.id !== fileId
+    );
+    const [removedTreeItem] = currentFolderTree.filter(
+      (treeItem) => treeItem.id === fileId
+    );
+
+    folderTreeWithoutTheFile.push({
+      ...removedTreeItem,
+      id: fileId,
+      parentFolderId: folderId,
+    });
 
     userDocRef
       .update({

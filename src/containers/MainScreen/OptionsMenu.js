@@ -42,7 +42,9 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
       >
         <MenuItem onClick={() => setConfDialogOpen(true)}>Delete</MenuItem>
         {/* <MenuItem onClick={onClose}>Rename</MenuItem> */}
-        <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
+        {type === 'quiz' ? (
+          <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
+        ) : null}
         <MenuItem onClick={handleMoveDialogOpen}>Move</MenuItem>
       </Menu>
       <DeleteConfirmation

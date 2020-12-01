@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../containers/Authentication/contex';
-import { createNewQuiz } from '../../database/functions';
+import { createNewQuiz, moveFileToFolder } from '../../database/functions';
 import { useHistory } from 'react-router';
 import firebase from '../../firebase';
 import { jsonToObject } from '../../utils/converters';
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     position: 'relative',
-    minHeight: '200px',
+    overflow: 'hidden',
   },
 });
 
@@ -122,6 +122,12 @@ const MainScreen = (props) => {
       .then((res) => {
         history.push('/q/' + res.id);
         props.setEditMode(true);
+        return res;
+      })
+      .then((res) => {
+        if (currentLocation && currentLocation !== 'root') {
+          moveFileToFolder(user.uid, res.id, currentLocation);
+        }
       })
       .catch((err) => {
         console.error(err);

@@ -21,12 +21,17 @@ const OptionsMenu = ({ open, type, userId, file, onClose, id, name }) => {
       .then(() => enqueueSnackbar(`File "${name}" was permanently deleted`))
       .catch((err) => enqueueSnackbar(err.message, { variant: 'error' }));
 
+    handleDeleteFolder(false);
     onClose();
   };
 
-  const handleDeleteFolder = () => {
+  const handleDeleteFolder = (withNotification = true) => {
     deleteFolderFromFileTree(userId, id)
-      .then(() => enqueueSnackbar(`Folder "${name}" was permanently deleted`))
+      .then(() => {
+        if (withNotification) {
+          enqueueSnackbar(`Folder "${name}" was permanently deleted`);
+        }
+      })
       .catch((err) => enqueueSnackbar(err.message, { variant: 'error' }));
 
     onClose();

@@ -9,7 +9,11 @@ import React, { useContext } from 'react';
 import SaveIcon from '@material-ui/icons/Save';
 import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
-import { updateQuizById, deleteQuizById } from '../database/functions';
+import {
+  updateQuizById,
+  deleteQuizById,
+  deleteFolderFromFileTree,
+} from '../database/functions';
 import { AuthContext } from '../containers/Authentication/contex';
 import { useSnackbar } from 'notistack';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -63,6 +67,7 @@ const LowerNavbar = (props) => {
 
   const handleGoBackReturn = () => {
     deleteQuizById(props.quizId);
+    deleteFolderFromFileTree(user.uid, props.quizId);
     history.push('/');
   };
 
