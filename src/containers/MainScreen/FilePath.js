@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '52px',
     width: '100%',
-    position: 'fixed',
     background: theme.palette.common.offWhite,
     boxShadow: theme.shadows[1],
     display: 'flex',

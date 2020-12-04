@@ -45,7 +45,7 @@ export const addGapFill = () => {
       title: 'Fill the gaps in the following sentences:',
       subtitle: '',
       hasSubtitle: false,
-      isNumbered: false,
+      isNumbered: true,
       paragraphs: [
         {
           id: makeCustomId(8),
@@ -54,7 +54,7 @@ export const addGapFill = () => {
           elements: [
             {
               type: 'text_run',
-              content: 'First sentence',
+              content: '',
             },
           ],
         },

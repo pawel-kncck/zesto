@@ -15,7 +15,6 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     position: 'relative',
-    overflow: 'hidden',
   },
 });
 
@@ -146,16 +145,20 @@ const MainScreen = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <FilePath tree={tree} currentLocation={currentLocation} />
-      <FileList
-        userId={user.uid}
-        files={files.filter((file) => file.parentFolderId === currentLocation)}
-        tree={files}
-        onOpen={handleOpen}
-      />
+    <>
+      <div className={classes.root}>
+        <FilePath tree={tree} currentLocation={currentLocation} />
+        <FileList
+          userId={user.uid}
+          files={files.filter(
+            (file) => file.parentFolderId === currentLocation
+          )}
+          tree={files}
+          onOpen={handleOpen}
+        />
+      </div>
       <Fab onClick={handleNewFile} />
-    </div>
+    </>
   );
 };
 

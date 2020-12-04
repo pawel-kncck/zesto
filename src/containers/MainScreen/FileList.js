@@ -5,8 +5,6 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    position: 'relative',
-    minHeight: '200px',
   },
 });
 
@@ -14,7 +12,7 @@ const FileList = ({ userId, files, onOpen, tree }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.main}>
+    <div className={classes.root}>
       {files.map((file) => {
         return (
           <FileListItem

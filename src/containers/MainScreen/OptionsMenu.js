@@ -1,14 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { Menu, MenuItem } from '@material-ui/core';
-import { duplicateQuizById } from '../../database/functions';
+import {
+  duplicateQuizById,
+  renameFolderInFileTree,
+} from '../../database/functions';
 import { AuthContext } from '../Authentication/contex';
 import { useSnackbar } from 'notistack';
 import DeleteConfirmation from './DeleteConfirmation';
 import MoveFileDialog from './MoveFileDialog';
+import RenameFolderDialog from './RenameFolderDialog';
 
 const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
   const [confDialogOpen, setConfDialogOpen] = useState(false);
   const [moveDialogOpen, setMoveDialogOpen] = useState(false);
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -31,6 +36,20 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
     onClose();
   };
 
+  const handleRenameDialogOpen = () => {
+    setRenameDialogOpen(true);
+  };
+
+  const handleRenameDialogClose = () => {
+    setRenameDialogOpen(false);
+    onClose();
+  };
+
+  const handleRename = (newLabel) => {
+    renameFolderInFileTree(user.uid, id, newLabel);
+    onClose();
+  };
+
   return (
     <>
       <Menu
@@ -46,6 +65,9 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
           <MenuItem onClick={handleDuplicate}>Duplicate</MenuItem>
         ) : null}
         <MenuItem onClick={handleMoveDialogOpen}>Move</MenuItem>
+        {type === 'folder' ? (
+          <MenuItem onClick={handleRenameDialogOpen}>Rename</MenuItem>
+        ) : null}
       </Menu>
       <DeleteConfirmation
         open={confDialogOpen}
@@ -62,6 +84,12 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
           tree={tree}
           userId={user.uid}
           onClose={handleMoveDialogClose}
+        />
+      ) : null}
+      {renameDialogOpen ? (
+        <RenameFolderDialog
+          onCancel={handleRenameDialogClose}
+          onSubmit={handleRename}
         />
       ) : null}
     </>

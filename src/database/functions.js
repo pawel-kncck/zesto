@@ -153,6 +153,38 @@ export const addFolderToFileTree = (userId, label, parentId = 'root') => {
     });
 };
 
+export const renameFolderInFileTree = (userId, folderId, newName) => {
+  const userDocRef = firebase.firestore().collection('users').doc(userId);
+
+  return userDocRef
+    .get()
+    .then((doc) => {
+      const folderTree = doc.data().fileTree;
+
+      const newFolderTree = folderTree.map((treeItem) => {
+        if (treeItem.id === folderId) {
+          return {
+            ...treeItem,
+            label: newName,
+          };
+        } else {
+          return treeItem;
+        }
+      });
+
+      return newFolderTree;
+    })
+    .then((newFolderTree) => {
+      userDocRef.update({
+        fileTree: newFolderTree,
+      });
+    })
+    .then((res) => res)
+    .catch((err) => {
+      throw err;
+    });
+};
+
 export const deleteFolderFromFileTree = (userId, folderId) => {
   const userDocRef = firebase.firestore().collection('users').doc(userId);
 
@@ -166,7 +198,9 @@ export const deleteFolderFromFileTree = (userId, folderId) => {
       const newFolderTree = folderTree
         .filter((treeItem) => treeItem.id !== folderId)
         .map((treeItem) => {
-          if (treeItem.parentFolderId === removedItem.id) {
+          if (!removedItem) {
+            return treeItem;
+          } else if (treeItem.parentFolderId === removedItem.id) {
             return {
               ...treeItem,
               parentFolderId: removedItem.parentFolderId,

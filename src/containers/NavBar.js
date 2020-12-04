@@ -7,7 +7,7 @@ import UserMenu from './UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 52,
+    height: '52px',
     display: 'flex',
     alignItems: 'center',
     boxShadow: theme.shadows[2],
