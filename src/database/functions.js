@@ -11,6 +11,7 @@ export const createNewQuiz = (userId) => {
     author: userId,
     owners: [userId],
     users: [userId],
+    visibility: 'public',
     createdAt: createdDate,
     lastUpdatedAt: createdDate,
     body: objectToJson(initialQuizWithGapFill),
@@ -42,7 +43,7 @@ export const deleteQuizById = (quizId) => {
     });
 };
 
-export const updateQuizById = (quizId, quizBodyObject, quizAnswersObject) => {
+export const updateQuizById = (quizId, quizBodyObject) => {
   const db = firebase.firestore();
   const updateDate = new Date();
 
@@ -52,9 +53,42 @@ export const updateQuizById = (quizId, quizBodyObject, quizAnswersObject) => {
     .update({
       lastUpdatedAt: updateDate,
       body: objectToJson(quizBodyObject),
-      answers: objectToJson(quizAnswersObject),
     })
     .then(() => `Changes saved successfully!`)
+    .catch((err) => {
+      throw err;
+    });
+};
+
+export const updateAnswersByQuizId = (quizId, quizAnswersObject) => {
+  const answersDocRef = firebase.firestore().collection('answers').doc(quizId);
+  const updateDate = new Date();
+
+  return answersDocRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return answersDocRef
+          .update({
+            lastUpdatedAt: updateDate,
+            answers: objectToJson(quizAnswersObject),
+          })
+          .then(() => `Answers saved successfully!`)
+          .catch((err) => {
+            throw err;
+          });
+      } else {
+        return answersDocRef
+          .set({
+            lastUpdatedAt: updateDate,
+            answers: objectToJson(quizAnswersObject),
+          })
+          .then(() => `Answers saved successfully!`)
+          .catch((err) => {
+            throw err;
+          });
+      }
+    })
     .catch((err) => {
       throw err;
     });

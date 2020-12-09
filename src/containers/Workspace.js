@@ -9,7 +9,8 @@ import { loadAnswersState } from '../store/answers.actions';
 import { loadMetadataState } from '../store/metadata.actions';
 import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
-import { objectToJson } from '../utils/converters';
+import { useHistory } from 'react-router';
+// import { objectToJson } from '../utils/converters';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -21,40 +22,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Workspace({ loadState, ...props }) {
+function Workspace({
+  loadBodyState,
+  loadMetadataState,
+  loadAnswersState,
+  ...props
+}) {
   const classes = useStyles();
-  const [lastLoad, setLastLoad] = useState(null);
-  const statesCombined = {
-    body: objectToJson(props.bodyState),
-    answers: objectToJson(props.answersState),
-  };
   const quizId = props.match.params.id || null;
-  const isDatabaseSyncWithState =
-    JSON.stringify(lastLoad) === JSON.stringify(statesCombined);
+  const [bodyLoad, setBodyLoad] = useState(false);
+  const [answersLoad, setAnswersLoad] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
       .collection('quizzes')
       .doc(quizId)
-      .onSnapshot((doc) => {
-        const { body, answers, ...metadata } = doc.data();
-
-        loadState(body, answers, metadata);
-        setLastLoad({
-          body: body || '{}',
-          answers: answers || '{}',
-        });
-      });
+      .onSnapshot(
+        (doc) => {
+          const { body, ...metadata } = doc.data();
+          loadBodyState(body);
+          loadMetadataState(metadata);
+          setBodyLoad(body);
+        },
+        // () => history.push('/accessdenied')
+        (error) => console.log(error)
+      );
     return () => {
       unsubscribe();
     };
-  }, [loadState, quizId]);
+  }, [loadBodyState, loadMetadataState, quizId, history]);
+
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection('answers')
+      .doc(quizId)
+      .onSnapshot(
+        (doc) => {
+          if (doc.exists) {
+            const { answers } = doc.data();
+            loadAnswersState(answers);
+            setAnswersLoad(answers);
+          } else {
+            loadAnswersState('{}');
+            setAnswersLoad('{}');
+          }
+        },
+        // () => history.push('/accessdenied')
+        (error) => console.log(error)
+      );
+    return () => {
+      unsubscribe();
+    };
+  }, [loadAnswersState, quizId, history]);
 
   return (
     <>
-      <LowerNavbar upToDate={isDatabaseSyncWithState} quizId={quizId} />
-      {Boolean(lastLoad) ? (
+      <LowerNavbar upToDate={false} quizId={quizId} />
+      {Boolean(bodyLoad) && Boolean(answersLoad) ? (
         <Paper elevation={3} className={classes.main}>
           {props.editMode ? <EditingSpace /> : <StandardView />}
         </Paper>
@@ -68,16 +95,20 @@ function Workspace({ loadState, ...props }) {
 const mapStateToProps = (state) => {
   return {
     editMode: state.editMode.active,
-    bodyState: state.quiz,
-    answersState: state.answers,
+    bodyCurrentState: state.quiz,
+    answersCurrentState: state.answers,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadState: (body, answers, metadata) => {
+    loadBodyState: (body) => {
       dispatch(loadQuizState(body));
+    },
+    loadAnswersState: (answers) => {
       dispatch(loadAnswersState(answers));
+    },
+    loadMetadataState: (metadata) => {
       dispatch(loadMetadataState(metadata));
     },
   };

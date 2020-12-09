@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       } else {
         setUser(null);
-
         setLoading(false);
       }
     });

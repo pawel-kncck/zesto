@@ -13,6 +13,7 @@ import {
   updateQuizById,
   deleteQuizById,
   deleteFolderFromFileTree,
+  updateAnswersByQuizId,
 } from '../database/functions';
 import { AuthContext } from '../containers/Authentication/contex';
 import { useSnackbar } from 'notistack';
@@ -48,7 +49,8 @@ const LowerNavbar = (props) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const history = useHistory();
-  const isOwner = props.owners ? props.owners.includes(user.uid) : false;
+  const isOwner =
+    props.owners && user ? props.owners.includes(user.uid) : false;
   const isNew = props.metadata.createdAt
     ? JSON.stringify(props.metadata.createdAt) ===
       JSON.stringify(props.metadata.lastUpdatedAt)
@@ -56,7 +58,17 @@ const LowerNavbar = (props) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveChanges = () => {
-    updateQuizById(props.quizId, props.quizBodyObject, props.quizAnswersObject)
+    updateQuizById(props.quizId, props.quizBodyObject)
+      .then((res) => {
+        enqueueSnackbar(res, { variant: 'success' });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSaveAnswers = () => {
+    updateAnswersByQuizId(props.quizId, props.quizAnswersObject)
       .then((res) => {
         enqueueSnackbar(res, { variant: 'success' });
       })
@@ -120,9 +132,9 @@ const LowerNavbar = (props) => {
           variant="contained"
           startIcon={<SaveIcon />}
           disabled={props.upToDate}
-          onClick={handleSaveChanges}
+          onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
         >
-          Save
+          {props.editMode ? 'Save changes' : 'Save answers'}
         </Button>
       </div>
     </div>
