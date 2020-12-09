@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   main: {
     width: '795px',
+    maxWidth: '90vw',
     minHeight: '500px',
     margin: 'auto',
     marginTop: '30px',

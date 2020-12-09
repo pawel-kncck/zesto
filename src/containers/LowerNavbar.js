@@ -1,8 +1,11 @@
 import {
   Button,
   FormControlLabel,
+  IconButton,
   makeStyles,
   Switch,
+  useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
 import ShareIcon from '@material-ui/icons/Share';
 import React, { useContext } from 'react';
@@ -56,6 +59,8 @@ const LowerNavbar = (props) => {
       JSON.stringify(props.metadata.lastUpdatedAt)
     : false;
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleSaveChanges = () => {
     updateQuizById(props.quizId, props.quizBodyObject)
@@ -112,7 +117,7 @@ const LowerNavbar = (props) => {
             label="Editing"
             labelPlacement="start"
           />
-          <div className={classes.buttonContainer}>
+          {/* <div className={classes.buttonContainer}>
             <Button
               size="small"
               color="primary"
@@ -121,21 +126,31 @@ const LowerNavbar = (props) => {
             >
               Share
             </Button>
-          </div>
+          </div> */}
         </>
       ) : null}
 
       <div className={classes.buttonContainer}>
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          startIcon={<SaveIcon />}
-          disabled={props.upToDate}
-          onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
-        >
-          {props.editMode ? 'Save changes' : 'Save answers'}
-        </Button>
+        {matches ? (
+          <Button
+            size="small"
+            color="primary"
+            variant="contained"
+            startIcon={<SaveIcon />}
+            disabled={props.upToDate}
+            onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
+          >
+            Save
+          </Button>
+        ) : (
+          <IconButton
+            size="small"
+            // color="primary"
+            onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
+          >
+            <SaveIcon />
+          </IconButton>
+        )}
       </div>
     </div>
   );
