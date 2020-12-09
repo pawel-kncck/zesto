@@ -1,7 +1,7 @@
 import firebase from '../firebase';
 import { makeCustomId } from '../utils/generators';
 import { initialQuizWithGapFill } from './initialContent';
-import { objectToJson } from '../utils/converters';
+import { objectToJson, jsonToObject } from '../utils/converters';
 
 export const createNewQuiz = (userId) => {
   const db = firebase.firestore();
@@ -85,13 +85,14 @@ export const duplicateQuizById = (quizId, userId) => {
       const docData = doc.data();
       const createdDate = new Date();
 
-      const body = docData.body;
+      const body = jsonToObject(docData.body);
 
-      const replacer = (match) => {
-        return match + ' COPY';
+      const newBodyObject = {
+        ...body,
+        title: `${body.title} + COPY`,
       };
 
-      const newBody = body.replace(/(?<="title":")(.*?)(?=")/, replacer);
+      const newBody = objectToJson(newBodyObject);
 
       const newDocData = {
         author: docData.author,

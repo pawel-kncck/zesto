@@ -19,7 +19,7 @@ const App = () => {
             <Redirect from="/f/root" to="/" />
             <ProtectedRoute path="/f/:folderId" exact component={Home} />
             <Route path="/login" component={LoginPage} />
-            <ProtectedRoute path="/q/:id" component={Workspace} />
+            <Route path="/q/:id" component={Workspace} />
           </Switch>
         </SnackbarProvider>
       </BrowserRouter>
