@@ -1,27 +1,23 @@
 import {
   Button,
   FormControlLabel,
-  IconButton,
   makeStyles,
   Switch,
-  useMediaQuery,
-  useTheme,
+  Typography,
 } from '@material-ui/core';
-import ShareIcon from '@material-ui/icons/Share';
+// import ShareIcon from '@material-ui/icons/Share';
 import React, { useContext } from 'react';
-import SaveIcon from '@material-ui/icons/Save';
 import { connect } from 'react-redux';
 import { setEditMode } from '../store/editMode.actions';
 import {
-  updateQuizById,
   deleteQuizById,
   deleteFolderFromFileTree,
-  updateAnswersByQuizId,
 } from '../database/functions';
 import { AuthContext } from '../containers/Authentication/contex';
-import { useSnackbar } from 'notistack';
 import UndoIcon from '@material-ui/icons/Undo';
 import { useHistory } from 'react-router';
+import DoneIcon from '@material-ui/icons/Done';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +42,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#d00',
     color: theme.palette.common.offWhite,
   },
+  savingStatus: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '20px',
+  },
 }));
 
-const LowerNavbar = (props) => {
+const LowerNavbar = ({ onSaveAnswers, onSaveBody, ...props }) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const history = useHistory();
@@ -58,29 +59,6 @@ const LowerNavbar = (props) => {
     ? JSON.stringify(props.metadata.createdAt) ===
       JSON.stringify(props.metadata.lastUpdatedAt)
     : false;
-  const { enqueueSnackbar } = useSnackbar();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
-  const handleSaveChanges = () => {
-    updateQuizById(props.quizId, props.quizBodyObject)
-      .then((res) => {
-        enqueueSnackbar(res, { variant: 'success' });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleSaveAnswers = () => {
-    updateAnswersByQuizId(props.quizId, props.quizAnswersObject)
-      .then((res) => {
-        enqueueSnackbar(res, { variant: 'success' });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const handleGoBackReturn = () => {
     deleteQuizById(props.quizId);
@@ -130,27 +108,11 @@ const LowerNavbar = (props) => {
         </>
       ) : null}
 
-      <div className={classes.buttonContainer}>
-        {matches ? (
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            startIcon={<SaveIcon />}
-            disabled={props.upToDate}
-            onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
-          >
-            Save
-          </Button>
-        ) : (
-          <IconButton
-            size="small"
-            // color="primary"
-            onClick={props.editMode ? handleSaveChanges : handleSaveAnswers}
-          >
-            <SaveIcon />
-          </IconButton>
-        )}
+      <div className={classes.savingStatus}>
+        {props.isDataSaved ? <DoneIcon /> : <AutorenewIcon />}
+        <Typography color="textSecondary" variant="body2">
+          {props.isDataSaved ? 'Saved' : 'Saving...'}
+        </Typography>
       </div>
     </div>
   );

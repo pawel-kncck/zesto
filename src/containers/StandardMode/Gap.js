@@ -56,7 +56,7 @@ const Gap = (props) => {
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      value={props.answers[id]}
+      value={props.answers[id] || ''}
       onChange={(event) => props.setAnswer(id, event.target.value)}
     />
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import LowerNavbar from './LowerNavbar';
 import EditingSpace from './EditingSpace';
 import StandardView from './StandardView';
@@ -10,7 +10,8 @@ import { loadMetadataState } from '../store/metadata.actions';
 import firebase from '../firebase';
 import LoadingScreen from '../componenets/LoadingScreen';
 import { useHistory } from 'react-router';
-// import { objectToJson } from '../utils/converters';
+import { objectToJson } from '../utils/converters';
+import { updateQuizById, updateAnswersByQuizId } from '../database/functions';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -34,6 +35,25 @@ function Workspace({
   const [bodyLoad, setBodyLoad] = useState(false);
   const [answersLoad, setAnswersLoad] = useState(false);
   const history = useHistory();
+  const isDataSaved =
+    answersLoad === objectToJson(props.answersCurrentState) &&
+    bodyLoad === objectToJson(props.bodyCurrentState);
+
+  const handleSaveBody = useCallback(() => {
+    updateQuizById(quizId, props.bodyCurrentState)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [quizId, props.bodyCurrentState]);
+
+  const handleSaveAnswers = useCallback(() => {
+    updateAnswersByQuizId(quizId, props.answersCurrentState)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [quizId, props.answersCurrentState]);
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -47,7 +67,6 @@ function Workspace({
           loadMetadataState(metadata);
           setBodyLoad(body);
         },
-        // () => history.push('/accessdenied')
         (error) => console.log(error)
       );
     return () => {
@@ -71,7 +90,6 @@ function Workspace({
             setAnswersLoad('{}');
           }
         },
-        // () => history.push('/accessdenied')
         (error) => console.log(error)
       );
     return () => {
@@ -79,9 +97,33 @@ function Workspace({
     };
   }, [loadAnswersState, quizId, history]);
 
+  const AUTOSAVE_INTERVAL = 3000;
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (answersLoad !== objectToJson(props.answersCurrentState)) {
+        handleSaveAnswers();
+      }
+    }, AUTOSAVE_INTERVAL);
+    return () => clearTimeout(timer);
+  }, [props.answersCurrentState, answersLoad, handleSaveAnswers]);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (bodyLoad !== objectToJson(props.bodyCurrentState)) {
+        handleSaveBody();
+      }
+    }, AUTOSAVE_INTERVAL);
+    return () => clearTimeout(timer);
+  }, [props.bodyCurrentState, bodyLoad, handleSaveBody]);
+
   return (
     <>
-      <LowerNavbar upToDate={false} quizId={quizId} />
+      <LowerNavbar
+        isDataSaved={isDataSaved}
+        quizId={quizId}
+        onSaveAnswers={handleSaveAnswers}
+        onSaveBody={handleSaveBody}
+      />
       {Boolean(bodyLoad) && Boolean(answersLoad) ? (
         <Paper elevation={3} className={classes.main}>
           {props.editMode ? <EditingSpace /> : <StandardView />}
