@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useMediaQuery } from '@material-ui/core';
 import React from 'react';
 import Gap from '../../containers/StandardMode/Gap';
 
@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     marginTop: '10px',
     marginBottom: '10px',
-    marginLeft: theme.indent.secondIndent,
+    marginLeft: useMediaQuery(theme.breakpoints.up('sm'))
+      ? theme.indent.secondIndent
+      : theme.indent.secondIndentMobile,
     fontSize: 'inherit',
     fontFamily: 'inherit',
   },

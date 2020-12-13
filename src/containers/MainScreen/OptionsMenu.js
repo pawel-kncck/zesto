@@ -20,7 +20,10 @@ const OptionsMenu = ({ id, anchorEl, type, file, onClose, name, tree }) => {
   const handleDuplicate = () => {
     if (type === 'quiz') {
       duplicateQuizById(id, user.uid)
-        .then(() => enqueueSnackbar('File duplicated', { variant: 'success' }))
+        .then(() => {
+          enqueueSnackbar('File duplicated', { variant: 'success' });
+          onClose();
+        })
         .catch((err) => console.log(err));
     } else {
       onClose();

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setAnswer } from '../../store/answers.actions';
@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     borderRight: 'none',
     outline: 'none',
     fontSize: 'inherit',
+  },
+  mobileWidth: {
+    width: '110px',
   },
   focus: {
     borderColor: theme.palette.primary.main,
@@ -25,10 +28,13 @@ const Gap = (props) => {
   const classes = useStyles();
   const [hover, setHover] = useState(false);
   const [focus, setFocus] = useState(false);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const wrapperClasses = [
     classes.root,
     focus ? classes.focus : null,
     hover && !focus ? classes.hover : null,
+    !matches ? classes.mobileWidth : null,
   ];
   const id = props.id;
 

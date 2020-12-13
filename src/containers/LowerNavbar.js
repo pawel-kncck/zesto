@@ -22,6 +22,10 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '52px',
+    position: 'fixed',
+    top: '52px',
+    width: '100%',
+    zIndex: 100,
     background: theme.palette.common.offWhite,
     boxShadow: theme.shadows[1],
     display: 'flex',
@@ -66,6 +70,20 @@ const LowerNavbar = ({ onSaveAnswers, onSaveBody, ...props }) => {
     history.push('/');
   };
 
+  const handleSwitchMode = () => {
+    if (props.editMode) {
+      props.setEditMode(false);
+      if (!props.isDataSaved) {
+        onSaveBody();
+      }
+    } else {
+      props.setEditMode(true);
+      if (!props.isDataSaved) {
+        onSaveAnswers();
+      }
+    }
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.rightButtonContainer}>
@@ -88,7 +106,7 @@ const LowerNavbar = ({ onSaveAnswers, onSaveBody, ...props }) => {
             control={
               <Switch
                 checked={props.editMode}
-                onChange={() => props.setEditMode(!props.editMode)}
+                onChange={handleSwitchMode}
                 color="primary"
               />
             }

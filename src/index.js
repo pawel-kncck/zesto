@@ -31,6 +31,7 @@ const theme = createMuiTheme({
   },
   indent: {
     secondIndent: '60px',
+    secondIndentMobile: '40px',
   },
 });
 

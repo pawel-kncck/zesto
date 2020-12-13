@@ -6,8 +6,8 @@ import ExerciseSwitch from '../componenets/StandardMode/ExerciseSwitch';
 const StandardView = ({ title, description, exercises }) => {
   return (
     <>
-      <Typography variant="h3">{title}</Typography>
-      <Typography variant="h6">{description}</Typography>
+      <Typography variant="h4">{title}</Typography>
+      <Typography variant="subtitle1">{description}</Typography>
       {exercises.map((exercise, exIndex) => {
         return (
           <ExerciseSwitch

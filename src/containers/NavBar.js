@@ -9,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '52px',
     display: 'flex',
+    position: 'fixed',
+    zIndex: 100,
+    top: 0,
+    width: '100%',
     alignItems: 'center',
     boxShadow: theme.shadows[2],
     background: theme.palette.primary.main,

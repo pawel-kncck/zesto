@@ -156,8 +156,8 @@ const MainScreen = (props) => {
           tree={files}
           onOpen={handleOpen}
         />
+        <Fab onClick={handleNewFile} />
       </div>
-      <Fab onClick={handleNewFile} />
     </>
   );
 };

@@ -13,7 +13,7 @@ const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <SnackbarProvider maxSnack={3}>
+        <SnackbarProvider maxSnack={2}>
           <NavBar />
           <Switch>
             <ProtectedRoute path="/" exact component={Home} />

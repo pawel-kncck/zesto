@@ -8,6 +8,8 @@ import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '52px',
+    position: 'fixed',
+    top: '52px',
     width: '100%',
     background: theme.palette.common.offWhite,
     boxShadow: theme.shadows[1],

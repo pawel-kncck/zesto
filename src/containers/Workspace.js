@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import LowerNavbar from './LowerNavbar';
 import EditingSpace from './EditingSpace';
 import StandardView from './StandardView';
-import { makeStyles, Paper } from '@material-ui/core';
+import { makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { loadQuizState } from '../store/quiz.actions';
 import { loadAnswersState } from '../store/answers.actions';
@@ -14,13 +14,19 @@ import { objectToJson } from '../utils/converters';
 import { updateQuizById, updateAnswersByQuizId } from '../database/functions';
 
 const useStyles = makeStyles((theme) => ({
-  main: {
-    width: '795px',
-    maxWidth: '90vw',
+  mainDesktop: {
+    maxWidth: '750px',
     minHeight: '500px',
     margin: 'auto',
-    marginTop: '30px',
+    marginTop: '134px',
     padding: '30px',
+  },
+  mainMobile: {
+    maxWidth: '750px',
+    minHeight: '500px',
+    marginTop: '104px',
+    margin: 'auto',
+    padding: '15px',
   },
 }));
 
@@ -38,6 +44,10 @@ function Workspace({
   const isDataSaved =
     answersLoad === objectToJson(props.answersCurrentState) &&
     bodyLoad === objectToJson(props.bodyCurrentState);
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const mainClasss = matches ? classes.mainDesktop : classes.mainMobile;
 
   const handleSaveBody = useCallback(() => {
     updateQuizById(quizId, props.bodyCurrentState)
@@ -125,7 +135,7 @@ function Workspace({
         onSaveBody={handleSaveBody}
       />
       {Boolean(bodyLoad) && Boolean(answersLoad) ? (
-        <Paper elevation={3} className={classes.main}>
+        <Paper elevation={3} className={mainClasss}>
           {props.editMode ? <EditingSpace /> : <StandardView />}
         </Paper>
       ) : (
